@@ -1,0 +1,59 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="col-sm-12 col-xl-6">
+        <div class="bg-light rounded h-100 p-4">
+            <table class="table table-striped" border="2">
+            <tr>
+                <td>Category Name:</td>
+                <td><input type="text" name="txt_category" id="" value="{{editdata.category_name}}" required placeholder="Enter the category"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                    <input type="reset" value="Cancel">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="col-sm-12 col-xl-6">
+        <div class="bg-light rounded h-100 p-4">
+            <table class="table table-striped" border="2">
+                <tr>
+                    <td>S.No</td>
+                    <td>Category</td>
+                    <td>Action</td>
+                </tr>
+                {% for i in categorydata %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.category_name}}</td>
+                    <td>
+                        <a href="{% url 'Administrator:delcategory' i.id %}">Delete/</a>
+                        <a href="{% url 'Administrator:editcategory' i.id %}">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Administrator:Category' %}"
+</script>
+{% endif %}
+{% endblock content %}

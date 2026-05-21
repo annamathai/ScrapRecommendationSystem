@@ -1,0 +1,102 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <table class="table table-striped" border="2">
+                    <tr>
+                        <td>Category</td>
+                        <td>
+                            <select name="category" id="category" required>
+                                <option value="">--select--</option>
+                                {% for i in category %}
+                                <option {% if editdata.brand.category.id == i.id %} selected {% endif %} value="{{i.id}}">
+                                    {{i.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Brand</td>
+                        <td>
+                            <select name="brand" id="brand" required>
+                                {% if editdata.brand %}
+                                {% for i in brand %}
+                                <option {% if editdata.brand == i.id %} selected {% endif %} value="{{i.id}}">
+                                    {{i.brand_name}}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Model</td>
+                        <td><input type="text" name="txt_model" id="" value="{{editdata.model_name}}" required placeholder="Enter the model"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" value="Submit">
+                            <input type="reset" value="Cancel">
+                        </td>
+                    </tr>
+                </table>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <table class="table table-striped" border="2">
+                            <tr>
+                                <td>S.No</td>
+                                <td>Category</td>
+                                <td>Brand</td>
+                                <td>Model</td>
+                                <td>Action</td>
+                            </tr>
+                            {% for i in modeldata %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{i.brand.category.category_name}}</td>
+                                <td>{{i.brand.brand_name}}</td>
+                                <td>{{i.model_name}}</td>
+                                <td>
+                                    <a href="{% url 'Administrator:delmodel' i.id %}">Delete/</a>
+                                    <a href="{% url 'Administrator:editmodel' i.id %}">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+    </form>
+</body>
+
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#category").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Administrator:AjaxBrand' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#brand").html(data);
+            },
+        });
+    });
+</script>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Administrator:Model' %}"
+</script>
+{% endif %}
+{% endblock content %}

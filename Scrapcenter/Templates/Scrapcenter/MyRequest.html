@@ -1,0 +1,174 @@
+{% extends 'Scrapcenter/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Request</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <section class="container py-5">
+
+    <!-- PAGE TITLE -->
+    <div class="text-center mb-5">
+
+        <h1 class="font-weight-bold">
+            My Requests
+        </h1>
+
+        <p class="text-muted">
+            View all scrap vehicle requests
+        </p>
+
+    </div>
+
+    <!-- REQUEST TABLE CARD -->
+    <div class="card shadow-lg border-0">
+
+        <!-- CARD HEADER -->
+        <div class="card-header bg-dark text-white py-3">
+
+            <h4 class="mb-0">
+                <i class="fa fa-truck-loading mr-2"></i>
+                Request Details
+            </h4>
+
+        </div>
+
+        <!-- CARD BODY -->
+        <div class="card-body table-responsive">
+
+            <table class="table table-bordered table-hover text-center align-middle">
+
+                <thead class="thead-dark">
+
+                    <tr>
+                        <th>S.No</th>
+                        <th>Vehicle Photo</th>
+                        <th>Description</th>
+                        <th>Scrapcenter</th>
+                        <th>Contact</th>
+                        <th>Remark</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for i in reqdata %}
+
+                    <tr>
+
+                        <td>
+                            {{forloop.counter}}
+                        </td>
+
+                        <!-- VEHICLE IMAGES -->
+                        <td>
+
+                            {% for j in i.vehicle.tbl_gallery_set.all %}
+
+                            <img src="{{j.gallery_file.url}}"
+                                 alt="Vehicle Image"
+                                 class="img-thumbnail m-1"
+                                 width="120"
+                                 height="90"
+                                 style="object-fit: cover;">
+
+                            {% endfor %}
+
+                        </td>
+
+                        <!-- DESCRIPTION -->
+                        <td style="min-width: 220px;">
+                            {{i.vehicle.vehicle_description}}
+                        </td>
+
+                        <!-- SCRAPCENTER -->
+                        <td>
+                            {{i.scrapcenter.scrapcenter_name}}
+                        </td>
+
+                        <!-- CONTACT -->
+                        <td>
+                            <i class="fa fa-phone text-warning mr-1"></i>
+                            {{i.scrapcenter.scrapcenter_contact}}
+                        </td>
+
+                        <!-- REMARK -->
+                        <td>
+                            {% if i.request_remark %}
+                                {{i.request_remark}}
+                            {% else %}
+                                <span class="text-muted">
+                                    No Remark
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- AMOUNT -->
+                        <td>
+
+                            {% if i.request_amount %}
+                                <span class="font-weight-bold text-success">
+                                    ₹ {{i.request_amount}}
+                                </span>
+                            {% else %}
+                                <span class="text-muted">
+                                    Not Added
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <!-- STATUS -->
+                        <td>
+
+                            {% if i.request_status == 0 %}
+
+                                <span class="badge badge-warning px-3 py-2">
+                                    Pending
+                                </span>
+
+                            {% elif i.request_status == 1 %}
+
+                                <span class="badge badge-success px-3 py-2">
+                                    Accepted
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge badge-danger px-3 py-2">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+    </form>
+</body>
+</html>
+
+{% endblock content %}

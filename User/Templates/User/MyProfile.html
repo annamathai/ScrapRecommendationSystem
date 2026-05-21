@@ -1,0 +1,190 @@
+{% extends 'User/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Profile</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <section class="container py-5">
+
+            <!-- PAGE TITLE -->
+            <div class="text-center mb-5">
+
+                <h1 class="font-weight-bold">
+                    My Profile
+                </h1>
+
+                <p class="text-muted">
+                    View your personal profile information
+                </p>
+
+            </div>
+
+            <!-- PROFILE CARD -->
+            <div class="row justify-content-center">
+
+                <div class="col-lg-8">
+
+                    <div class="card shadow-lg border-0 overflow-hidden">
+
+                        <!-- TOP HEADER -->
+                        <div class="bg-dark text-white text-center py-5">
+
+                            <!-- PROFILE IMAGE -->
+                            <img src="{{userdata.user_photo.url}}" alt="Profile Photo"
+                                class="rounded-circle border border-white shadow" width="180" height="180"
+                                style="object-fit: cover;">
+
+                            <h3 class="mt-4 mb-1">
+                                {{userdata.user_name}}
+                            </h3>
+
+                            <p class="mb-0 text-light">
+                                User Profile
+                            </p>
+
+                        </div>
+
+                        <!-- PROFILE DETAILS -->
+                        <div class="card-body p-5">
+
+                            <div class="row">
+
+                                <!-- EMAIL -->
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <h6 class="text-warning font-weight-bold">
+                                            <i class="fa fa-envelope mr-2"></i>
+                                            Email
+                                        </h6>
+
+                                        <p class="mb-0">
+                                            {{userdata.user_email}}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- CONTACT -->
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <h6 class="text-warning font-weight-bold">
+                                            <i class="fa fa-phone mr-2"></i>
+                                            Contact
+                                        </h6>
+
+                                        <p class="mb-0">
+                                            {{userdata.user_contact}}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- ADDRESS -->
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <h6 class="text-warning font-weight-bold">
+                                            <i class="fa fa-map-marker-alt mr-2"></i>
+                                            Address
+                                        </h6>
+
+                                        <p class="mb-0">
+                                            {{userdata.user_address}}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- DISTRICT -->
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <h6 class="text-warning font-weight-bold">
+                                            <i class="fa fa-location-arrow mr-2"></i>
+                                            District
+                                        </h6>
+
+                                        <p class="mb-0">
+                                            {{userdata.place.district.district_name}}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- PLACE -->
+                                <div class="col-md-12 mb-4">
+
+                                    <div class="border rounded p-3">
+
+                                        <h6 class="text-warning font-weight-bold">
+                                            <i class="fa fa-map-pin mr-2"></i>
+                                            Place
+                                        </h6>
+
+                                        <p class="mb-0">
+                                            {{userdata.place.place_name}}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- ACTION BUTTONS -->
+                            <div class="text-center mt-5">
+
+                                <a href="{% url 'User:EditProfile' %}" class="btn btn-warning px-4 py-2 mr-2 mb-2">
+
+                                    <i class="fa fa-user-edit mr-2"></i>
+                                    Edit Profile
+                                </a>
+
+                                <a href="{% url 'User:ChangePassword' %}" class="btn btn-dark px-4 py-2 mr-2 mb-2">
+
+                                    <i class="fa fa-lock mr-2"></i>
+                                    Change Password
+                                </a>
+
+                                <a href="{% url 'User:HomePage' %}" class="btn btn-secondary px-4 py-2 mb-2">
+
+                                    <i class="fa fa-home mr-2"></i>
+                                    Home
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </form>
+</body>
+
+</html>
+
+{% endblock content %}

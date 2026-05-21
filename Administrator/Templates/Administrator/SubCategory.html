@@ -1,0 +1,72 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sub Category</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <table class="table table-striped" border="2">
+                    <tr>
+                        <td>Category</td>
+                        <td>
+                            <select name="Category" id="" required>
+                                <option>--select--</option>
+                                {% for i in categories %}
+                                <option {% if editdata.category.id == i.id %} selected {% endif %} value="{{i.id}}">
+                                    {{i.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sub Category:</td>
+                        <td><input type="text" name="txt_sub" id="" value="{{editdata.sub_name}}" required placeholder="Enter the SubCategory"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" value="Submit">
+                            <input type="reset" value="Cancel">
+                        </td>
+                    </tr>
+                </table>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <table class="table table-striped" border="2">
+                            <tr>
+                                <td>S.No</td>
+                                <td>Category</td>
+                                <td>Sub Category</td>
+                                <td>Action</td>
+                            </tr>
+                            {% for i in subcategories %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{i.category.category_name}}</td>
+                                <td>{{i.sub_name}}</td>
+                                <td>
+                                    <a href="{% url 'Administrator:delsub' i.id %}">Delete/</a>
+                                    <a href="{% url 'Administrator:editsub' i.id %}">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Administrator:SubCategory' %}"
+</script>
+{% endif %}
+{% endblock content %}

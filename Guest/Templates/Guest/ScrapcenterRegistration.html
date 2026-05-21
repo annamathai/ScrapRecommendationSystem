@@ -1,0 +1,283 @@
+{% extends 'Guest/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Scrapcenter Registration </title>
+</head>
+
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <section class="container py-5">
+
+            <!-- PAGE TITLE -->
+            <div class="text-center mb-5">
+
+                <h1 class="font-weight-bold">
+                    Scrapcenter Registration
+                </h1>
+
+                <p class="text-muted">
+                    Register your scrapcenter and start managing vehicle requests
+                </p>
+
+            </div>
+
+            <!-- REGISTRATION CARD -->
+            <div class="row justify-content-center">
+
+                <div class="col-lg-8">
+
+                    <div class="card shadow-lg border-0 overflow-hidden">
+
+                        <!-- CARD HEADER -->
+                        <div class="bg-dark text-white text-center py-4">
+
+                            <h3 class="mb-0">
+                                <i class="fa fa-building mr-2"></i>
+                                Scrapcenter Signup
+                            </h3>
+
+                        </div>
+
+                        <!-- CARD BODY -->
+                        <div class="card-body p-5">
+
+                            <form action="" method="post" enctype="multipart/form-data">
+
+                                {% csrf_token %}
+
+                                <div class="row">
+
+                                    <!-- NAME -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Scrapcenter Name
+                                            </label>
+
+                                            <input type="text" name="txt_name" class="form-control" required
+                                                placeholder="Enter Scrapcenter Name" minlength="3"
+                                                pattern="^[A-Z]+[a-zA-Z ]*$"
+                                                title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter">
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- EMAIL -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Email Address
+                                            </label>
+
+                                            <input type="email" name="txt_email" class="form-control" required
+                                                placeholder="Enter Email">
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- CONTACT -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Contact Number
+                                            </label>
+
+                                            <input type="text" name="txt_contact" class="form-control" required
+                                                placeholder="Enter Contact Number" minlength="10" maxlength="10"
+                                                pattern="[6-9]{1}[0-9]{9}"
+                                                title="Phone number must start with 6-9 and contain 10 digits">
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- ADDRESS -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Address
+                                            </label>
+
+                                            <input type="text" name="txt_address" class="form-control" required
+                                                placeholder="Enter Address">
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- DISTRICT -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                District
+                                            </label>
+
+                                            <select name="district" id="district" class="form-control" required>
+
+                                                <option value="">
+                                                    -- Select District --
+                                                </option>
+
+                                                {% for i in district %}
+
+                                                <option value="{{i.id}}">
+                                                    {{i.district_name}}
+                                                </option>
+
+                                                {% endfor %}
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- PLACE -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Place
+                                            </label>
+
+                                            <select name="place" id="place" class="form-control" required>
+
+                                                <option value="">
+                                                    -- Select Place --
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- PHOTO -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Scrapcenter Photo
+                                            </label>
+
+                                            <input type="file" name="txt_photo" class="form-control" accept="image/*"
+                                                required>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- PROOF -->
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Verification Proof
+                                            </label>
+
+                                            <input type="file" name="txt_proof" class="form-control" accept="image/*"
+                                                required>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- PASSWORD -->
+                                    <div class="col-md-12">
+
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold">
+                                                Password
+                                            </label>
+
+                                            <input type="password" name="txt_password" class="form-control" required
+                                                placeholder="Enter Password"
+                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- BUTTONS -->
+                                <div class="text-center mt-5">
+
+                                    <button type="reset" class="btn btn-dark px-5 py-2 mr-2">
+
+                                        <i class="fa fa-times mr-2"></i>
+                                        Clear
+
+                                    </button>
+
+                                    <button type="submit" class="btn btn-warning px-5 py-2">
+
+                                        <i class="fa fa-user-plus mr-2"></i>
+                                        Register
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Guest:ScrapcenterRegistration' %}"
+</script>
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#district").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Guest:AjaxPlace' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#place").html(data);
+            },
+        });
+    });
+</script>
+
+{% endblock content %}

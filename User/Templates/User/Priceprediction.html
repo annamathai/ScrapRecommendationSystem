@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle Scrap Price</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 35px;
+        }
+
+        .title span {
+            color: #ff6b35;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .input-box {
+            background: #faf9ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #e3e6ff;
+        }
+
+        .input-box i {
+            color: #9aa0c7;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .input-box select {
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-size: 15px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            color: #ff6b35;
+            font-weight: 500;
+        }
+
+        .btn-wrap {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .btn {
+            background: #ff6b35;
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 12px 25px rgba(255,107,53,0.4);
+        }
+
+        .btn:hover {
+            background: #ff5722;
+        }
+
+        /* Result section */
+        .result-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 600;
+            margin: 60px 0 30px;
+        }
+
+        .result-title span {
+            color: #ff6b35;
+        }
+
+        .result-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .icon-circle {
+            width: 90px;
+            height: 90px;
+            background: #e6f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #6c63ff;
+            flex-shrink: 0;
+        }
+
+        .result-text h3 {
+            margin: 0 0 12px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .result-text p {
+            margin: 6px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .again-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media(max-width: 992px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 576px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .result-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- FORM CARD -->
+    <div class="card">
+        <div class="title">
+            Get your <span>free on spot vehicle valuation</span> in <strong>10 secs!</strong>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="input-box">
+                    <i class="fa-solid fa-hand-pointer"></i>
+                    <select name="SelectBrand" id="sel_brand" required>
+                        <option value="">Brand</option>
+                        {% for i in brand %}
+                        <option value="{{i.id}}">{{i.brand_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-globe"></i>
+                    <select name="SelectType" id="sel_type" required>
+                        <option value="">Type</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-angles-right"></i>
+                    <select name="SelectModel" id="selmodel" required>
+                        <option value="">Model</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-gas-pump"></i>
+                    <select name="SelectFuelType" id="sel_fueltype" required>
+                        <option value="">Type</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Electric">Electric</option>
+                        <option value="CNG">CNG</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="btn-wrap">
+                <button type="submit" class="btn">Get Price</button>
+            </div>
+
+        </form>
+    </div>
+
+    {% if predicted_weight %}
+    <!-- RESULT -->
+    <div class="result-title">
+        Scrap <span>It</span>  !
+    </div>
+
+    <div class="result-card">
+        <div class="icon-circle">
+            <i class="fa-solid fa-handshake"></i>
+        </div>
+
+        <div class="result-text">
+            <h3>
+                Estimated Price Range of {{bname}} ({{mname}}) is : ₹ {{price}}
+            </h3>
+
+            <p>* Final price is subject to physical inspection and vehicle condition in your location.</p>
+            <p>* If the engine or battery are in working condition, we would be happy to offer you best market price.</p>
+            <p>* The price may vary according to the origin/city.</p>
+        </div>
+    </div>
+
+    <div class="again-btn">
+        <a href="{% url 'User:Priceprediction' %}">
+            <button class="btn">Calculate Again</button>
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $("#sel_brand").change(function () {
+        var bid = $(this).val();
+        var ur = "{% url 'User:ajaxtype' %}"
+        $.ajax({
+            url: ur,
+            data: { bid: bid },
+            success: function (data) {
+                $("#sel_type").html(data);
+            }
+        });
+    });
+</script>
+
+<script>
+    $("#sel_type").change(function () {
+        var tid = $(this).val();
+        var ur = "{% url 'User:ajaxmodel' %}"
+        $.ajax({
+            url: ur,
+            data: { tid: tid },
+            success: function (data) {
+                $("#selmodel").html(data);
+            }
+        });
+    });
+</script>
+
+{% if msgdata %}
+<script>
+    alert("{{msgdata}}");
+    window.location = "{% url 'User:Priceprediction' %}"
+</script>
+{% endif %}
+
+</body>
+</html>

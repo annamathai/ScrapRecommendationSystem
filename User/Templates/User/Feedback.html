@@ -1,0 +1,192 @@
+{% extends 'User/Header.html' %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <section class="container py-5">
+
+            <!-- PAGE TITLE -->
+            <div class="text-center mb-5">
+
+                <h1 class="font-weight-bold">
+                    Feedback
+                </h1>
+
+                <p class="text-muted">
+                    Share your feedback and manage previous responses
+                </p>
+
+            </div>
+
+            <!-- FEEDBACK FORM -->
+            <div class="row justify-content-center mb-5">
+
+                <div class="col-md-7">
+
+                    <div class="card shadow-lg border-0">
+
+                        <!-- CARD HEADER -->
+                        <div class="card-header bg-dark text-white py-3">
+
+                            <h4 class="mb-0">
+
+                                {% if editdata %}
+
+                                <i class="fa fa-edit mr-2"></i>
+                                Edit Feedback
+
+                                {% else %}
+
+                                <i class="fa fa-comment-dots mr-2"></i>
+                                Add Feedback
+
+                                {% endif %}
+
+                            </h4>
+
+                        </div>
+
+                        <!-- CARD BODY -->
+                        <div class="card-body p-5">
+
+                            <form action="" method="post">
+                                {% csrf_token %}
+
+                                <!-- FEEDBACK -->
+                                <div class="form-group mb-4">
+
+                                    <label class="font-weight-bold">
+                                        Feedback
+                                    </label>
+
+                                    <textarea name="txt_feedback" class="form-control" rows="5" required
+                                        placeholder="Enter Your Feedback">{{editdata.fb_content}}</textarea>
+
+                                </div>
+
+                                <!-- BUTTONS -->
+                                <div class="text-center mt-4">
+
+                                    <button type="submit" class="btn btn-warning px-5 py-2 mr-2">
+
+                                        <i class="fa fa-paper-plane mr-2"></i>
+                                        Submit
+                                    </button>
+
+                                    <button type="reset" class="btn btn-dark px-5 py-2">
+
+                                        <i class="fa fa-times mr-2"></i>
+                                        Cancel
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FEEDBACK LIST -->
+            <div class="card shadow-lg border-0">
+
+                <!-- CARD HEADER -->
+                <div class="card-header bg-dark text-white py-3">
+
+                    <h4 class="mb-0">
+                        <i class="fa fa-list-alt mr-2"></i>
+                        Feedback History
+                    </h4>
+
+                </div>
+
+                <!-- CARD BODY -->
+                <div class="card-body table-responsive">
+
+                    <table class="table table-bordered table-hover text-center align-middle">
+
+                        <thead class="thead-dark">
+
+                            <tr>
+                                <th>S.No</th>
+                                <th>Content</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in fbdata %}
+
+                            <tr>
+
+                                <td>
+                                    {{forloop.counter}}
+                                </td>
+
+                                <td style="min-width: 250px;">
+                                    {{i.fb_content}}
+                                </td>
+
+                                <td>
+                                    {{i.fb_date}}
+                                </td>
+
+                                <td>
+
+                                    <a href="{% url 'User:editfb' i.id %}" class="btn btn-primary btn-sm mb-1">
+
+                                        <i class="fa fa-edit">Edit</i>
+                                    </a>
+
+                                    <a href="{% url 'User:delfb' i.id %}" class="btn btn-danger btn-sm mb-1"
+                                        onclick="return confirm('Are you sure you want to delete this feedback?')">
+
+                                        <i class="fa fa-trash">Delete</i>
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'User:Feedback' %}"
+</script>
+{% endif %}
+
+{% endblock content %}

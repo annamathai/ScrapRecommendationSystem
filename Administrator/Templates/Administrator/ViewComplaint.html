@@ -1,0 +1,79 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Complaint</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <table class="table table-striped" border="2">
+                    <tr>
+                        <td>S.No</td>
+                        <td>User Name</td>
+                        <td>Title</td>
+                        <td>Content</td>
+                        <td>Date</td>
+                        <td>Reply</td>
+                        <td>Action</td>
+
+                    </tr>
+                    {% for i in ucdata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.user.user_name}}</td>
+                        <td>{{i.cmpt_title}}</td>
+                        <td>{{i.cmpt_content}}</td>
+                        <td>{{i.cmpt_date}}</td>
+                        <td>{{i.cmpt_reply}}</td>
+                        <td>
+                            {% if i.cmpt_status == 0 %}
+                            <a href="{% url 'Administrator:Reply' i.id %}">Reply</a>
+                            {% else %}
+                            Replied
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <table border="2" align="right">
+                    <tr>
+                        <td>S.No</td>
+                        <td>Center Name</td>
+                        <td>Title</td>
+                        <td>Content</td>
+                        <td>Date</td>
+                        <td>Reply</td>
+                        <td>Action</td>
+
+                    </tr>
+                    {% for i in scdata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.scrap.scrapcenter_name}}</td>
+                        <td>{{i.cmpt_title}}</td>
+                        <td>{{i.cmpt_content}}</td>
+                        <td>{{i.cmpt_date}}</td>
+                        <td>{{i.cmpt_reply}}</td>
+                        <td>
+                            {% if i.cmpt_status == 0 %}
+                            <a href="{% url 'Administrator:Reply' i.id %}">Reply</a>
+                            {% else %}
+                            Replied
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+    </form>
+</body>
+
+</html>
+{% endblock content %}

@@ -1,0 +1,150 @@
+{% extends 'Scrapcenter/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <section class="container py-5">
+
+    <!-- PAGE TITLE -->
+    <div class="text-center mb-5">
+
+        <h1 class="font-weight-bold">
+            Send Request
+        </h1>
+
+        <p class="text-muted">
+            Submit your offered amount and remarks
+        </p>
+
+    </div>
+
+    <!-- REQUEST FORM -->
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-lg border-0 rounded-lg">
+
+                <!-- CARD HEADER -->
+                <div class="card-header bg-dark text-white text-center py-4">
+
+                    <h3 class="mb-0">
+                        <i class="fa fa-paper-plane mr-2"></i>
+                        Request Form
+                    </h3>
+
+                </div>
+
+                <!-- CARD BODY -->
+                <div class="card-body p-5">
+
+                    <form action="" method="post">
+                        {% csrf_token %}
+
+                        <!-- OFFERED AMOUNT -->
+                        <div class="form-group">
+
+                            <label class="font-weight-bold">
+                                Offered Amount
+                            </label>
+
+                            <div class="input-group">
+
+                                <div class="input-group-prepend">
+
+                                    <span class="input-group-text bg-warning text-white">
+                                        <i class="fa fa-rupee-sign"></i>
+                                    </span>
+
+                                </div>
+
+                                <input type="text"
+                                       name="txt_amount"
+                                       class="form-control"
+                                       required
+                                       placeholder="Enter Your Amount"
+                                       pattern="^[1-9][0-9]*$"
+                                       title="Price must contain only numbers and should be greater than 0">
+
+                            </div>
+
+                        </div>
+
+                        <!-- REMARK -->
+                        <div class="form-group">
+
+                            <label class="font-weight-bold">
+                                Remark
+                            </label>
+
+                            <div class="input-group">
+
+                                <div class="input-group-prepend">
+
+                                    <span class="input-group-text bg-warning text-white">
+                                        <i class="fa fa-comment"></i>
+                                    </span>
+
+                                </div>
+
+                                <textarea name="txt_remark"
+                                          class="form-control"
+                                          rows="4"
+                                          required
+                                          placeholder="Enter Your Remarks"></textarea>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="text-center mt-5">
+
+                            <button type="submit"
+                                    class="btn btn-warning px-5 py-2 mr-2">
+
+                                <i class="fa fa-check-circle mr-2"></i>
+                                Submit
+                            </button>
+
+                            <button type="reset"
+                                    class="btn btn-dark px-5 py-2">
+
+                                <i class="fa fa-times-circle mr-2"></i>
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+    </form>
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Scrapcenter:Request' vid   %}"
+</script>
+{% endif %}
+
+{% endblock content %}

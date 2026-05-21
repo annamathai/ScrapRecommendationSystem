@@ -1,0 +1,53 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <table class="table table-striped" border="2">
+                    <tr>
+                        <td>S.No</td>
+                        <td>Name</td>
+                        <td>Email</td>
+                        <td>Contact</td>
+                        <td>Address</td>
+                        <td>Gender</td>
+                        <td>DOB</td>
+                        <td>District</td>
+                        <td>Place</td>
+                        <td>Photo</td>
+                        <td>Proof</td>
+                        <td>Action</td>
+                    </tr>
+                    {% for i in userdata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.user_name}}</td>
+                        <td>{{i.user_email}}</td>
+                        <td>{{i.user_contact}}</td>
+                        <td>{{i.user_address}}</td>
+                        <td>{{i.user_gender}}</td>
+                        <td>{{i.user_dob}}</td>
+                        <td>{{i.place.district.district_name}}</td>
+                        <td>{{i.place.place_name}}</td>
+                        <td><img src="{{i.user_photo.url}}" alt="" width="200"></td>
+                        <td><img src="{{i.user_proof.url}}" alt="" width="200"></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+    </form>
+</body>
+
+</html>
+{% endblock content %}

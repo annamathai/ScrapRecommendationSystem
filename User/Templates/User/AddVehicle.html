@@ -1,0 +1,492 @@
+{% extends 'User/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <section class="container-fluid py-5">
+
+            <!-- PAGE TITLE -->
+            <div class="text-center mb-5">
+
+                <h1 class="font-weight-bold">
+                    Add Vehicle
+                </h1>
+
+                <p class="text-muted">
+                    Add your vehicle details for scrap evaluation
+                </p>
+
+            </div>
+
+            <!-- VEHICLE FORM -->
+            <div class="row justify-content-center mb-5">
+
+                <div class="col-lg-8">
+
+                    <div class="card shadow-lg border-0">
+
+                        <!-- CARD HEADER -->
+                        <div class="card-header bg-dark text-white py-3">
+
+                            <h4 class="mb-0">
+                                <i class="fa fa-car mr-2"></i>
+                                Vehicle Information
+                            </h4>
+
+                        </div>
+
+                        <!-- CARD BODY -->
+                        <div class="card-body p-5">
+
+                            <form action="" method="post">
+                                {% csrf_token %}
+
+                                <div class="row">
+
+                                    <!-- CATEGORY -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Category
+                                        </label>
+
+                                        <select name="category" id="category" class="form-control" required>
+
+                                            <option value="">
+                                                -- Select Category --
+                                            </option>
+
+                                            {% for i in category %}
+
+                                            <option value="{{i.id}}">
+                                                {{i.category_name}}
+                                            </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+                                    <!-- BRAND -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Brand
+                                        </label>
+
+                                        <select name="brand" id="brand" class="form-control" required>
+
+                                            <option value="">
+                                                -- Select Brand --
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <!-- MODEL -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Model
+                                        </label>
+
+                                        <select name="model" id="model" class="form-control" required>
+
+                                            <option value="">
+                                                -- Select Model --
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <!-- TRANSMISSION -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Transmission
+                                        </label>
+
+                                        <select name="txt_transmission" class="form-control" required>
+
+                                            <option value="">
+                                                -- Select --
+                                            </option>
+
+                                            <option value="Automatic">
+                                                Automatic
+                                            </option>
+
+                                            <option value="Manual">
+                                                Manual
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <!-- MILEAGE -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Mileage
+                                        </label>
+
+                                        <input type="text" name="txt_mileage" class="form-control" required
+                                            placeholder="Enter Mileage" pattern="[0-9]+">
+
+                                    </div>
+
+                                    <!-- FUEL -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Fuel Type
+                                        </label>
+
+                                        <select name="txt_fuel" class="form-control" required>
+
+                                            <option value="">
+                                                -- Select --
+                                            </option>
+
+                                            <option value="Diesel">
+                                                Diesel
+                                            </option>
+
+                                            <option value="Petrol">
+                                                Petrol
+                                            </option>
+
+                                            <option value="CNG">
+                                                CNG
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <!-- YEAR -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Manufacture Year
+                                        </label>
+
+                                        <input type="text" name="txt_year" class="form-control" minlength="4"
+                                            maxlength="4" required placeholder="Enter Year" pattern="[0-9]{4}">
+
+                                    </div>
+
+                                    <!-- CONDITION -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Vehicle Condition
+                                        </label>
+
+                                        <select name="txt_condition" class="form-control" required>
+
+                                            <option value="">
+                                                -- Select --
+                                            </option>
+
+                                            <option value="Bad">
+                                                Bad
+                                            </option>
+
+                                            <option value="Normal">
+                                                Normal
+                                            </option>
+
+                                            <option value="Good">
+                                                Good
+                                            </option>
+
+                                            <option value="Excellent">
+                                                Excellent
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <!-- RC -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold d-block">
+                                            RC Availability
+                                        </label>
+
+                                        <div class="form-check form-check-inline">
+
+                                            <input type="radio" name="availability" value="True"
+                                                class="form-check-input">
+
+                                            <label class="form-check-label">
+                                                Yes
+                                            </label>
+
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+
+                                            <input type="radio" name="availability" value="False"
+                                                class="form-check-input">
+
+                                            <label class="form-check-label">
+                                                No
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- INSURANCE -->
+                                    <div class="col-md-6 mb-4">
+
+                                        <label class="font-weight-bold d-block">
+                                            Insurance
+                                        </label>
+
+                                        <div class="form-check form-check-inline">
+
+                                            <input type="radio" name="Insurance" value="True" class="form-check-input">
+
+                                            <label class="form-check-label">
+                                                Yes
+                                            </label>
+
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+
+                                            <input type="radio" name="Insurance" value="False" class="form-check-input">
+
+                                            <label class="form-check-label">
+                                                No
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- DESCRIPTION -->
+                                    <div class="col-12 mb-4">
+
+                                        <label class="font-weight-bold">
+                                            Description
+                                        </label>
+
+                                        <textarea name="txt_description" class="form-control" rows="5" required
+                                            placeholder="Enter Vehicle Description"></textarea>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- BUTTONS -->
+                                <div class="text-center mt-4">
+
+                                    <button type="submit" class="btn btn-warning px-5 py-2 mr-2">
+
+                                        <i class="fa fa-save mr-2"></i>
+                                        Submit
+                                    </button>
+
+                                    <button type="reset" class="btn btn-dark px-5 py-2">
+
+                                        <i class="fa fa-times mr-2"></i>
+                                        Cancel
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- VEHICLE LIST -->
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-dark text-white py-3">
+
+                    <h4 class="mb-0">
+                        <i class="fa fa-list mr-2"></i>
+                        Added Vehicles
+                    </h4>
+
+                </div>
+
+                <div class="card-body table-responsive">
+
+                    <table class="table table-bordered table-hover text-center align-middle">
+
+                        <thead class="thead-dark">
+
+                            <tr>
+                                <th>S.No</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                                <th>Transmission</th>
+                                <th>Mileage</th>
+                                <th>Fuel</th>
+                                <th>Year</th>
+                                <th>Condition</th>
+                                <th>RC</th>
+                                <th>Insurance</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in avdata %}
+
+                            <tr>
+
+                                <td>{{forloop.counter}}</td>
+                                <td>{{i.model.brand.category.category_name}}</td>
+                                <td>{{i.model.brand.brand_name}}</td>
+                                <td>{{i.model.model_name}}</td>
+                                <td>{{i.transmission_type}}</td>
+                                <td>{{i.vehicle_mileage}}</td>
+                                <td>{{i.fuel_type}}</td>
+                                <td>{{i.manufacture_yr}}</td>
+                                <td>{{i.vehicle_condition}}</td>
+
+                                <td>
+
+                                    {% if i.is_rc_available %}
+
+                                    <span class="badge badge-success">
+                                        Yes
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge badge-danger">
+                                        No
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if i.insurance_status %}
+
+                                    <span class="badge badge-success">
+                                        Yes
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge badge-danger">
+                                        No
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td style="min-width: 200px;">
+                                    {{i.vehicle_description}}
+                                </td>
+
+                                <td>
+
+                                    <a href="{% url 'User:delav' i.id %}" class="btn btn-danger btn-sm mb-1">
+
+                                        <i class="fa fa-trash">Delete</i>
+                                    </a>
+
+                                    <a href="{% url 'User:Gallery' i.id %}" class="btn btn-primary btn-sm mb-1">
+
+                                        <i class="fa fa-image">Gallery</i>
+                                    </a>
+
+                                    <a href="{% url 'User:ViewScrapcenter' i.id %}" class="btn btn-warning btn-sm mb-1">
+
+                                        <i class="fa fa-building">ViewScrapcenter</i>
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'User:AddVehicle' %}"
+</script>
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#category").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Administrator:AjaxBrand' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#brand").html(data);
+            },
+        });
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#brand").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'User:AjaxModel' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#model").html(data);
+            },
+        });
+    });
+</script>
+
+{% endblock content %}

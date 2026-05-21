@@ -1,0 +1,195 @@
+{% extends 'User/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <section class="container py-5">
+
+            <!-- PAGE TITLE -->
+            <div class="text-center mb-5">
+
+                <h1 class="font-weight-bold">
+                    Edit Profile
+                </h1>
+
+                <p class="text-muted">
+                    Update your personal information
+                </p>
+
+            </div>
+
+            <!-- PROFILE CARD -->
+            <div class="row justify-content-center">
+
+                <div class="col-md-7">
+
+                    <div class="card shadow-lg border-0 rounded-lg">
+
+                        <!-- CARD HEADER -->
+                        <div class="card-header bg-dark text-white text-center py-4">
+
+                            <h3 class="mb-0">
+                                <i class="fa fa-user-edit mr-2"></i>
+                                Profile Details
+                            </h3>
+
+                        </div>
+
+                        <!-- CARD BODY -->
+                        <div class="card-body p-5">
+
+                            <form action="" method="post">
+                                {% csrf_token %}
+
+                                <!-- NAME -->
+                                <div class="form-group mb-4">
+
+                                    <label class="font-weight-bold">
+                                        Full Name
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text bg-warning text-white">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <input type="text" name="txt_name" class="form-control"
+                                            value="{{userdata.user_name}}" required placeholder="Enter Your Name"
+                                            minlength="3" pattern="^[A-Z]+[a-zA-Z ]*$"
+                                            title="Name Allows Only Alphabets, Spaces and First Letter Must Be Capital Letter">
+
+                                    </div>
+
+                                </div>
+
+                                <!-- EMAIL -->
+                                <div class="form-group mb-4">
+
+                                    <label class="font-weight-bold">
+                                        Email Address
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text bg-warning text-white">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <input type="email" name="txt_email" class="form-control"
+                                            value="{{userdata.user_email}}" required placeholder="Enter Your Email">
+
+                                    </div>
+
+                                </div>
+
+                                <!-- CONTACT -->
+                                <div class="form-group mb-4">
+
+                                    <label class="font-weight-bold">
+                                        Contact Number
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text bg-warning text-white">
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <input type="text" name="txt_contact" class="form-control"
+                                            value="{{userdata.user_contact}}" required placeholder="Enter Your Contact"
+                                            minlength="10" maxlength="10" pattern="[6-9]{1}[0-9]{9}"
+                                            title="Phone number must start with 6-9 and contain 10 digits">
+
+                                    </div>
+
+                                </div>
+
+                                <!-- ADDRESS -->
+                                <div class="form-group mb-4">
+
+                                    <label class="font-weight-bold">
+                                        Address
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text bg-warning text-white">
+                                                <i class="fa fa-map-marker-alt"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <textarea name="txt_address" class="form-control" rows="4" required
+                                            placeholder="Enter Your Address">{{userdata.user_address}}</textarea>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- BUTTONS -->
+                                <div class="text-center mt-5">
+
+                                    <button type="submit" class="btn btn-warning px-5 py-2 mr-2">
+
+                                        <i class="fa fa-save mr-2"></i>
+                                        Submit
+                                    </button>
+
+                                    <button type="reset" class="btn btn-dark px-5 py-2">
+
+                                        <i class="fa fa-times mr-2"></i>
+                                        Cancel
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'User:EditProfile' %}"
+</script>
+{% endif %}
+
+{% endblock content %}

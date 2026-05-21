@@ -1,0 +1,36 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Feedback</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <table class="table table-striped" border="2">
+                    <tr>
+                        <td>S.No</td>
+                        <td>User Name</td>
+                        <td>Content</td>
+                        <td>Date</td>
+                    </tr>
+                    {% for i in vfdata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.user.user_name}}</td>
+                        <td>{{i.fb_content}}</td>
+                        <td>{{i.fb_date}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+    </form>
+</body>
+
+</html>
+{% endblock content %}

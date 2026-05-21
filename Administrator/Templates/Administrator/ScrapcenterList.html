@@ -1,0 +1,65 @@
+{% extends 'Administrator/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrapcenter List</title>
+</head>
+
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <table class="table table-striped" border="2">
+                    <tr>
+                        <td>S.No</td>
+                        <td>Name</td>
+                        <td>Email</td>
+                        <td>Contact</td>
+                        <td>Address</td>
+                        <td>District</td>
+                        <td>Place</td>
+                        <td>Photo</td>
+                        <td>Proof</td>
+                        <td>Action</td>
+                    </tr>
+                    {% for i in scdata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.scrapcenter_name}}</td>
+                        <td>{{i.scrapcenter_email}}</td>
+                        <td>{{i.scrapcenter_contact}}</td>
+                        <td>{{i.scrapcenter_address}}</td>
+                        <td>{{i.place.district.district_name}}</td>
+                        <td>{{i.place.place_name}}</td>
+                        <td><img src="{{i.scrapcenter_photo.url}}" alt="" width="200"></td>
+                        <td><img src="{{i.scrapcenter_proof.url}}" alt="" width="200"></td>
+                        <td>
+                            {% if i.scrapcenter_status == 0 %}
+                            <a href="{% url 'Administrator:accept' i.id %}">Accept</a>
+                            <a href="{% url 'Administrator:reject' i.id %}">Reject</a>
+                            {% elif i.scrapcenter_status == 1 %}
+                            Accepted
+                            {% else %}
+                            Rejected
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Administrator:ScrapcenterList' %}"
+</script>
+{% endif %}
+{% endblock content %}

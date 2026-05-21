@@ -1,0 +1,187 @@
+{% extends 'Scrapcenter/Header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <section class="container py-5">
+
+    <!-- PAGE TITLE -->
+    <div class="text-center mb-5">
+        <h1 class="font-weight-bold">Complaints</h1>
+        <p class="text-muted">Manage and submit your complaints</p>
+    </div>
+
+    <!-- COMPLAINT TABLE -->
+    <div class="card shadow border-0 mb-5">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">
+                <i class="fa fa-exclamation-circle mr-2"></i>
+                Complaint List
+            </h4>
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-bordered table-hover text-center">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Date</th>
+                        <th>Reply</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for i in cmptdata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.cmpt_title}}</td>
+                        <td>{{i.cmpt_content}}</td>
+                        <td>{{i.cmpt_date}}</td>
+
+                        <td>
+                            {% if i.cmpt_reply %}
+                                <span class="badge badge-success p-2">
+                                    {{i.cmpt_reply}}
+                                </span>
+                            {% else %}
+                                <span class="badge badge-warning p-2">
+                                    Pending
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'Scrapcenter:editcmpt' i.id %}"
+                               class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit">Edit</i>
+                            </a>
+
+                            <a href="{% url 'Scrapcenter:delcmpt' i.id %}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this complaint?')">
+
+                                <i class="fa fa-trash">Delete</i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- COMPLAINT FORM -->
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">
+                        <i class="fa fa-plus-circle mr-2"></i>
+
+                        {% if editdata %}
+                            Edit Complaint
+                        {% else %}
+                            Add Complaint
+                        {% endif %}
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form action="" method="post">
+                        {% csrf_token %}
+
+                        <!-- TITLE -->
+                        <div class="form-group">
+                            <label class="font-weight-bold">
+                                Complaint Title
+                            </label>
+
+                            <input type="text"
+                                   name="txt_title"
+                                   class="form-control"
+                                   value="{{editdata.cmpt_title}}"
+                                   required
+                                   placeholder="Enter Your Complaint Title">
+                        </div>
+
+                        <!-- CONTENT -->
+                        <div class="form-group">
+                            <label class="font-weight-bold">
+                                Complaint Content
+                            </label>
+
+                            <textarea name="txt_content"
+                                      class="form-control"
+                                      rows="5"
+                                      required
+                                      placeholder="Enter Your Complaint">{{editdata.cmpt_content}}</textarea>
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="text-center mt-4">
+
+                            <button type="submit"
+                                    class="btn btn-warning px-5">
+
+                                <i class="fa fa-paper-plane mr-2"></i>
+                                Submit
+                            </button>
+
+                            <button type="reset"
+                                    class="btn btn-dark px-5 ml-2">
+
+                                <i class="fa fa-times mr-2"></i>
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+    </form>
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Scrapcenter:Complaint' %}"
+</script>
+{% endif %}
+
+{% endblock content %}
