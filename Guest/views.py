@@ -114,27 +114,19 @@ def forgotpassword(request):
         if usercount>0:
             user = tbl_user.objects.get(user_email=email)
             request.session["user"] = user.id
-            send_mail(
-                'Forgot password OTP', #subject
-                "\rHello \r" + str(otp) +"\n This is the OTP to reset ur password.\n If you didn't ask to reset your password, you can ignore this email. \r\n Thanks. \r\n.",#body
-                settings.EMAIL_HOST_USER,
-                [email]
-                
-            )
-            return redirect("Guest:otp")
         elif scrapcount>0:
             scrap=tbl_scrapcenter.objects.get(scrapcenter_email=email)
             request.session["scrap"]=scrap.id
-            send_mail(
-                'Forgot password OTP', 
-                "\rHello \r" + str(otp) +"\n This is the OTP to reset ur password.\n If you didn't ask to reset your password, you can ignore this email. \r\n Thanks. \r\n.",
-                settings.EMAIL_HOST_USER,
-                [email]
-                
-            )
-            return redirect("Guest:otp")
         else:
             return render(request,"Guest/ForgotPassword.html",{"msg":"Account Not Found"})
+        send_mail(
+            'Forgot password OTP', 
+            "\rHello \r" + str(otp) +"\n This is the OTP to reset ur password.\n If you didn't ask to reset your password, you can ignore this email. \r\n Thanks. \r\n.",
+            settings.EMAIL_HOST_USER,
+            [email]  
+            )
+        return redirect("Guest:otp")
+        
     else:
         return render(request,"Guest/ForgotPassword.html")
 
@@ -150,17 +142,18 @@ def otp(request):
 
 def newpass(request):
     if request.method == "POST":
-        user = tbl_user.objects.get(id=request.session["user"])
-        scrap=tbl_scrapcenter.objects.get(id=request.session["scrap"])
-        if user:
-            if request.POST.get("txt_newpassword") == request.POST.get("txt_confirmpassword"):
-                user.user_password = request.POST.get("txt_confirmpassword")
-                user.save()
+        if request.POST.get("txt_newpassword") == request.POST.get("txt_confirmpassword"):
+            if "user" in request.session:
+                userdata = tbl_user.objects.get(id=request.session["user"])
+                userdata.user_password = request.POST.get("txt_confirmpassword")
+                userdata.save()
+                del request.session['user']
                 return render(request,"Guest/NewPassword.html",{"msg":"Password Updated Sucessfully...."})
-        elif scrap:   
-            if request.POST.get("txt_newpassword") == request.POST.get("txt_confirmpassword"):
-                scrap.scrapcenter_password = request.POST.get("txt_confirmpassword")
-                scrap.save()
+            elif "scrap" in request.session:   
+                scrapcenterdata=tbl_scrapcenter.objects.get(id=request.session["scrap"])
+                scrapcenterdata.scrapcenter_password = request.POST.get("txt_confirmpassword")
+                scrapcenterdata.save()
+                del request.session['scrap']
                 return render(request,"Guest/NewPassword.html",{"msg":"Password Updated Sucessfully...."})
         else:   
             return render(request,"Guest/NewPassword.html",{"msg":"Error in confirm password..!!!"})
