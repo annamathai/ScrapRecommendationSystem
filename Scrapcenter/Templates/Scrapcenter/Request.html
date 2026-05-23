@@ -4,146 +4,141 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request</title>
 </head>
+
 <body>
     <form action="" method="post">
         {% csrf_token %}
         <section class="container py-5">
 
-    <!-- PAGE TITLE -->
-    <div class="text-center mb-5">
+            <!-- PAGE TITLE -->
+            <div class="text-center mb-5">
 
-        <h1 class="font-weight-bold">
-            Send Request
-        </h1>
+                <h1 class="font-weight-bold">
+                    Send Request
+                </h1>
 
-        <p class="text-muted">
-            Submit your offered amount and remarks
-        </p>
+                <p class="text-muted">
+                    Submit your offered amount and remarks
+                </p>
 
-    </div>
+            </div>
 
-    <!-- REQUEST FORM -->
-    <div class="row justify-content-center">
+            <!-- REQUEST FORM -->
+            <div class="row justify-content-center">
 
-        <div class="col-md-6">
+                <div class="col-md-6">
 
-            <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card shadow-lg border-0 rounded-lg">
 
-                <!-- CARD HEADER -->
-                <div class="card-header bg-dark text-white text-center py-4">
+                        <!-- CARD HEADER -->
+                        <div class="card-header bg-dark text-white text-center py-4">
 
-                    <h3 class="mb-0">
-                        <i class="fa fa-paper-plane mr-2"></i>
-                        Request Form
-                    </h3>
+                            <h3 class="mb-0">
+                                <i class="fa fa-paper-plane mr-2"></i>
+                                Request Form
+                            </h3>
 
-                </div>
+                        </div>
 
-                <!-- CARD BODY -->
-                <div class="card-body p-5">
+                        <!-- CARD BODY -->
+                        <div class="card-body p-5">
 
-                    <form action="" method="post">
-                        {% csrf_token %}
+                            <form action="" method="post">
+                                {% csrf_token %}
 
-                        <!-- OFFERED AMOUNT -->
-                        <div class="form-group">
+                                <!-- OFFERED AMOUNT -->
+                                <div class="form-group">
 
-                            <label class="font-weight-bold">
-                                Offered Amount
-                            </label>
+                                    <label class="font-weight-bold">
+                                        Offered Amount
+                                    </label>
 
-                            <div class="input-group">
+                                    <div class="input-group">
 
-                                <div class="input-group-prepend">
+                                        <div class="input-group-prepend">
 
-                                    <span class="input-group-text bg-warning text-white">
-                                        <i class="fa fa-rupee-sign"></i>
-                                    </span>
+                                            <span class="input-group-text bg-warning text-white">
+                                                <i class="fa fa-rupee-sign"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <input type="text" name="txt_amount" class="form-control" required
+                                            placeholder="Enter Your Amount" pattern="^[1-9][0-9]*$"
+                                            title="Price must contain only numbers and should be greater than 0">
+
+                                    </div>
 
                                 </div>
 
-                                <input type="text"
-                                       name="txt_amount"
-                                       class="form-control"
-                                       required
-                                       placeholder="Enter Your Amount"
-                                       pattern="^[1-9][0-9]*$"
-                                       title="Price must contain only numbers and should be greater than 0">
+                                <!-- REMARK -->
+                                <div class="form-group">
 
-                            </div>
+                                    <label class="font-weight-bold">
+                                        Remark
+                                    </label>
 
-                        </div>
+                                    <div class="input-group">
 
-                        <!-- REMARK -->
-                        <div class="form-group">
+                                        <div class="input-group-prepend">
 
-                            <label class="font-weight-bold">
-                                Remark
-                            </label>
+                                            <span class="input-group-text bg-warning text-white">
+                                                <i class="fa fa-comment"></i>
+                                            </span>
 
-                            <div class="input-group">
+                                        </div>
 
-                                <div class="input-group-prepend">
+                                        <textarea name="txt_remark" class="form-control" rows="4"
+                                            pattern="[A-Za-z0-9 ,.?!'-]{3,200}"
+                                            title="Remarks should contain 3-200 valid characters" required></textarea>
 
-                                    <span class="input-group-text bg-warning text-white">
-                                        <i class="fa fa-comment"></i>
-                                    </span>
+                                    </div>
 
                                 </div>
 
-                                <textarea name="txt_remark"
-                                          class="form-control"
-                                          rows="4"
-                                          required
-                                          placeholder="Enter Your Remarks"></textarea>
+                                <!-- BUTTONS -->
+                                <div class="text-center mt-5">
 
-                            </div>
+                                    <button type="submit" class="btn btn-warning px-5 py-2 mr-2">
 
-                        </div>
+                                        <i class="fa fa-check-circle mr-2"></i>
+                                        Submit
+                                    </button>
 
-                        <!-- BUTTONS -->
-                        <div class="text-center mt-5">
+                                    <button type="reset" class="btn btn-dark px-5 py-2">
 
-                            <button type="submit"
-                                    class="btn btn-warning px-5 py-2 mr-2">
+                                        <i class="fa fa-times-circle mr-2"></i>
+                                        Cancel
+                                    </button>
 
-                                <i class="fa fa-check-circle mr-2"></i>
-                                Submit
-                            </button>
+                                </div>
 
-                            <button type="reset"
-                                    class="btn btn-dark px-5 py-2">
-
-                                <i class="fa fa-times-circle mr-2"></i>
-                                Cancel
-                            </button>
+                            </form>
 
                         </div>
 
-                    </form>
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </div>
-
-</section>
+        </section>
 
     </form>
 </body>
+
 </html>
 {% if msg %}
 <script>
     alert("{{msg}}")
-    window.location="{% url 'Scrapcenter:Request' vid   %}"
+    window.location = "{% url 'Scrapcenter:Request' vid   %}"
 </script>
 {% endif %}
 

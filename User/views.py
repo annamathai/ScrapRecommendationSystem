@@ -51,9 +51,9 @@ def Priceprediction(request):
     else:
         return redirect("Guest:Login")
 
-
 def HomePage(request):
     return render(request,'User/HomePage.html')
+
 def EditProfile(request):
     userdata=tbl_user.objects.get(id=request.session["uid"])
     if request.method=="POST":
@@ -69,9 +69,11 @@ def EditProfile(request):
         return render(request,'User/EditProfile.html',{"msg":"Data updated"})
     else:
         return render(request,'User/EditProfile.html',{'userdata':userdata})
+
 def MyProfile(request):
     userdata=tbl_user.objects.get(id=request.session["uid"])
     return render(request,'User/MyProfile.html',{'userdata':userdata})
+
 def ChangePassword(request):
     userdata=tbl_user.objects.get(id=request.session["uid"])
     if request.method=="POST":
@@ -88,6 +90,7 @@ def ChangePassword(request):
         else:
             return render(request,'User/ChangePassword.html',{"msg":"Password Incorrect"})
     return render(request,'User/ChangePassword.html',{'userdata':userdata})
+
 def Complaint(request):
     userid=tbl_user.objects.get(id=request.session["uid"])
     cmptdata=tbl_complaint.objects.filter(user=userid)
@@ -102,9 +105,11 @@ def Complaint(request):
         return render(request,'User/Complaint.html',{"msg":"Data inserted"})
     else:
         return render(request,'User/Complaint.html',{'cmptdata':cmptdata})
+        
 def delcmpt(request,did):
     tbl_complaint.objects.get(id=did).delete()
     return render(request,'User/Complaint.html',{"msg":"Data deleted"})
+
 def editcmpt(request,did):
     editdata=tbl_complaint.objects.get(id=did)
     if request.method=="POST":
@@ -116,6 +121,7 @@ def editcmpt(request,did):
         return render(request,'User/Complaint.html',{"msg":"Data updated"})
     else:
         return render(request,'User/Complaint.html',{'editdata':editdata})
+
 def Feedback(request):
     fbdata=tbl_feedback.objects.all()
     userid=tbl_user.objects.get(id=request.session["uid"])
@@ -128,9 +134,11 @@ def Feedback(request):
         return render(request,'User/Feedback.html',{"msg":"Data inserted"})
     else:
         return render(request,'User/Feedback.html',{'fbdata':fbdata})
+
 def delfb(request,did):
     tbl_feedback.objects.get(id=did).delete()
     return render(request,'User/Feedback.html',{"msg":"Data deleted"})
+
 def editfb(request,did):
     editdata=tbl_feedback.objects.get(id=did)
     if request.method=="POST":
@@ -140,6 +148,7 @@ def editfb(request,did):
         return render(request,'User/Feedback.html',{"msg":"Data updated"})
     else:
         return render(request,'User/Feedback.html',{'editdata':editdata})
+
 def AddVehicle(request):
     avdata=tbl_addvehicle.objects.all()
     categorydata=tbl_category.objects.all()
@@ -171,17 +180,21 @@ def AddVehicle(request):
         return render(request,'User/AddVehicle.html',{"msg":"Data inserted"})
     else:
         return render(request,'User/AddVehicle.html',{'category':categorydata,'avdata':avdata,})
+
 def AjaxModel(request):
     brand=request.GET.get("did")
     modeldata=tbl_model.objects.filter(brand=brand)
     return render(request,"User/AjaxModel.html",{'model':modeldata})
+
 def AjaxBrand(request):
     category=request.GET.get("did")
     branddata=tbl_brand.objects.filter(category=category)
     return render(request,'User/AjaxBrand.html',{'brand': branddata})
+
 def delav(request,did):
     tbl_addvehicle.objects.get(id=did).delete()
     return render(request,'User/AddVehicle.html',{"msg":"Data deleted"})
+
 def Gallery(request,vid):
     vehicleid=tbl_addvehicle.objects.get(id=vid)
     galdata=tbl_gallery.objects.all()
@@ -194,25 +207,30 @@ def Gallery(request,vid):
         return render(request,'User/Gallery.html',{"msg":"Data inserted",'vid':vid})
     else:
         return render(request,'User/Gallery.html',{'galdata':galdata,'vid':vid})
+
 def delgal(request,did,vid):
     tbl_gallery.objects.get(id=did).delete()
     return render(request,'User/Gallery.html',{"msg":"Data deleted",'vid':vid})
+
 def ViewRequest(request):
     avdata=tbl_addvehicle.objects.all()
     reqdata=tbl_request.objects.all()
     scrapdata=tbl_scrapcenter.objects.all()
     galdata=tbl_gallery.objects.all()
     return render(request,'User/ViewRequest.html',{'avdata':avdata,'reqdata':reqdata,'scrapdata':scrapdata})
+
 def reject(request,id):
     data = tbl_request.objects.get(id=id)
     data.request_status = 2
     data.save()
     return redirect("User:ViewRequest")
+
 def accept(request,id):
     data = tbl_request.objects.get(id=id)
     data.request_status = 1
     data.save()
     return redirect("User:ViewRequest")
+    
 def ViewScrapcenter(request,vid):
     scrapdata=tbl_scrapcenter.objects.filter(scrapcenter_status=1)
     return render(request,'User/ViewScrapcenter.html',{'scrapdata':scrapdata,'vid':vid})

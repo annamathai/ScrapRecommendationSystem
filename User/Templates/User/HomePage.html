@@ -30,7 +30,7 @@
 <html lang="en">
 
 <head>
-  <title>Carbook - Free Bootstrap 4 Template by Colorlib</title>
+  <title>User Home</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -73,18 +73,18 @@
               href="{% url 'User:HomePage' %}" class="nav-link">Home</a></li>
           <li class="nav-item {% if request.resolver_match.url_name == 'AddVehicle' %}active{% endif %}"><a
               href="{% url 'User:AddVehicle' %}" class="nav-link">AddVehicle</a></li>
-          <li class="nav-item {% if request.resolver_match.url_name == 'Complaint' %}active{% endif %}"><a
-              href="{% url 'User:Complaint' %}" class="nav-link">Complaint</a></li>
-          <li class="nav-item {% if request.resolver_match.url_name == 'Feedback' %}active{% endif %}"><a
-              href="{% url 'User:Feedback' %}" class="nav-link">Feedback</a></li>
           <li class="nav-item {% if request.resolver_match.url_name == 'MyProfile' %}active{% endif %}"><a
               href="{% url 'User:MyProfile' %}" class="nav-link">MyProfile</a></li>
-          <li class="nav-item {% if request.resolver_match.url_name == 'MyProfile' %}active{% endif %}"><a
+          <li class="nav-item {% if request.resolver_match.url_name == 'EditProfile' %}active{% endif %}"><a
               href="{% url 'User:EditProfile' %}" class="nav-link">EditProfile</a></li>
           <li class="nav-item {% if request.resolver_match.url_name == 'MyRequest' %}active{% endif %}"><a
               href="{% url 'User:MyRequest' %}" class="nav-link">MyRequest</a></li>
           <li class="nav-item {% if request.resolver_match.url_name == 'ViewRequest' %}active{% endif %}"><a
               href="{% url 'User:ViewRequest' %}" class="nav-link">ViewRequest</a></li>
+          <li class="nav-item {% if request.resolver_match.url_name == 'Complaint' %}active{% endif %}"><a
+              href="{% url 'User:Complaint' %}" class="nav-link">Complaint</a></li>
+          <li class="nav-item {% if request.resolver_match.url_name == 'Feedback' %}active{% endif %}"><a
+              href="{% url 'User:Feedback' %}" class="nav-link">Feedback</a></li>
           <li class="nav-item {% if request.resolver_match.url_name == 'Login' %}active{% endif %}"><a
               href="{% url 'Guest:Login' %}" class="nav-link">Logout</a></li>
         </ul>

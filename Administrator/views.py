@@ -8,13 +8,15 @@ def District(request):
         districtname=request.POST.get("txt_district")
         tbl_district.objects.create(
             district_name=districtname)
-        return render(request,'Administrator/District.html',{"msg":"Data inserted"})
+        return render(request,'Administrator/District.html',{"msg":"Data inserted",'name':admin})
     else:
         return render(request,'Administrator/District.html',{'districtdata':districtdata})
+
 def deldistrict(request,did):
     tbl_district.objects.get(id=did).delete()
     # return redirect('Administrator:District')
     return render(request,'Administrator/District.html',{"msg":"Data Deleted"})
+
 def editdistrict(request,eid):
     editdata=tbl_district.objects.get(id=eid)
     if request.method=="POST":
@@ -24,6 +26,7 @@ def editdistrict(request,eid):
         return render(request,'Administrator/District.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/District.html',{'editdata':editdata})
+
 def AdminRegistration(request):
     admindata=tbl_admin.objects.all()
     if request.method=="POST":
@@ -39,9 +42,11 @@ def AdminRegistration(request):
         return render(request,'Administrator/AdminRegistration.html',{"msg":"data inserted"})
     else:
         return render(request,'Administrator/AdminRegistration.html',{'admindata':admindata})
+
 def deladmin(request,aid):
     tbl_admin.objects.get(id=aid).delete()
     return render(request,'Administrator/AdminRegistration.html',{"msg":"data deleted"})
+
 def editadmin(request,eid):
     editdata=tbl_admin.objects.get(id=eid)
     if request.method=="POST":
@@ -57,6 +62,7 @@ def editadmin(request,eid):
         return render(request,'Administrator/AdminRegistration.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/AdminRegistration.html',{'editdata':editdata})
+
 def Category(request):
     categorydata=tbl_category.objects.all()
     if request.method=="POST":
@@ -66,9 +72,11 @@ def Category(request):
         return render(request,'Administrator/Category.html',{"msg":"data inserted"})
     else:
         return render(request,'Administrator/Category.html',{'categorydata':categorydata})
+
 def delcategory(request,cid):
     tbl_category.objects.get(id=cid).delete()
     return render(request,'Administrator/Category.html',{"msg":"data deleted"})
+
 def editcategory(request,eid):
     editdata=tbl_category.objects.get(id=eid)
     if request.method=="POST":
@@ -78,6 +86,7 @@ def editcategory(request,eid):
         return render(request,'Administrator/Category.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/Category.html',{'editdata':editdata})
+
 def Place(request):
     placedata=tbl_place.objects.all()
     districtdata=tbl_district.objects.all()
@@ -93,9 +102,11 @@ def Place(request):
         return render(request,'Administrator/Place.html',{"msg":"Data inserted"})
     else:
         return render(request,'Administrator/Place.html',{'districts':districtdata,'places':placedata})
+
 def delplace(request,pid):
     tbl_place.objects.get(id=pid).delete()
     return render(request,'Administrator/Place.html',{"msg":"Data deleted"})
+
 def editplace(request,pid):
     district=tbl_district.objects.all()
     editdata=tbl_place.objects.get(id=pid)
@@ -109,6 +120,7 @@ def editplace(request,pid):
         return render(request,'Administrator/Place.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/Place.html',{'editdata':editdata,'district':district})
+
 def SubCategory(request):
     subdata=tbl_subcategory.objects.all()
     categorydata=tbl_category.objects.all()
@@ -122,9 +134,11 @@ def SubCategory(request):
         return render(request,'Administrator/SubCategory.html',{'msg':"Data inserted"})
     else:
         return render(request,'Administrator/SubCategory.html',{'categories':categorydata,'subcategories':subdata})
+
 def delsub(request,sid):
     tbl_subcategory.objects.get(id=sid).delete()
     return render(request,'Administrator/SubCategory.html',{"msg":"Data deleted"})
+
 def editsub(request,sid):
     category=tbl_category.objects.all()
     editdata=tbl_subcategory.objects.get(id=sid)
@@ -136,6 +150,7 @@ def editsub(request,sid):
         return render(request,'Administrator/SubCategory.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/SubCategory.html',{'editdata':editdata,'categories':category})
+
 def Product(request):
     return render(request,'Administrator/Product.html')
 def Brand(request):
@@ -151,9 +166,11 @@ def Brand(request):
         return render(request,'Administrator/Brand.html',{"msg":"Data inserted"})
     else:
         return render(request,'Administrator/Brand.html',{'branddata':branddata,'categories':categorydata})
+
 def delbrand(request,bid):
     tbl_brand.objects.get(id=bid).delete()
     return render(request,'Administrator/Brand.html',{"msg":"Data deleted"})
+
 def editbrand(request,eid):
     editdata=tbl_brand.objects.get(id=eid)
     category=tbl_category.objects.all()
@@ -164,6 +181,7 @@ def editbrand(request,eid):
         return render(request,'Administrator/Brand.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/Brand.html',{'editdata':editdata,'categories':category})
+
 def Type(request):
     typedata=tbl_type.objects.all()
     if request.method=="POST":
@@ -174,9 +192,11 @@ def Type(request):
         return render(request,'Administrator/Type.html',{"msg":"Data inserted"})
     else:
         return render(request,'Administrator/Type.html',{'typedata':typedata})
+
 def deltype(request,tid):
     tbl_type.objects.get(id=tid).delete()
     return render(request,'Administrator/Type.html',{"msg":"Data deleted"})
+
 def edittype(request,eid):
     editdata=tbl_type.objects.get(id=eid)
     if request.method=="POST":
@@ -186,16 +206,20 @@ def edittype(request,eid):
         return render(request,'Administrator/Type.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/Type.html',{'editdata':editdata})
+
 def UserList(request):
     userdata=tbl_user.objects.all()
     return render(request,'Administrator/UserList.html',{'userdata':userdata})
+
 def Home(request):
     admin=request.session["aname"]
     return render(request,'Administrator/Home.html',{'name':admin})
+
 def ViewComplaint(request):
     ucdata=tbl_complaint.objects.filter(user__isnull=False)
     scdata=tbl_complaint.objects.filter(scrap__isnull=False)
     return render(request,'Administrator/ViewComplaint.html',{'ucdata':ucdata,'scdata':scdata})
+
 def Reply(request,did):
     cmptdata=tbl_complaint.objects.get(id=did)
     if request.method=="POST":
@@ -206,22 +230,27 @@ def Reply(request,did):
         return redirect('Administrator:ViewComplaint')
     else:
         return render(request,'Administrator/Reply.html')
+
 def ViewFeedback(request):
     vfdata=tbl_feedback.objects.all()
     return render(request,'Administrator/ViewFeedback.html',{'vfdata':vfdata})
+
 def ScrapcenterList(request):
     scdata=tbl_scrapcenter.objects.all()
     return render(request,'Administrator/ScrapcenterList.html',{'scdata':scdata})
+
 def accept(request,did):
     data=tbl_scrapcenter.objects.get(id=did)
     data.scrapcenter_status=1
     data.save()
     return render(request,'Administrator/ScrapcenterList.html',{"msg":"Verified"})
+
 def reject(request,did):
     data=tbl_scrapcenter.objects.get(id=did)
     data.scrapcenter_status=2
     data.save()
     return render(request,'Administrator/ScrapcenterList.html',{"msg":"Rejected"})
+
 def Model(request):
     modeldata=tbl_model.objects.all()
     category=tbl_category.objects.all()
@@ -236,9 +265,11 @@ def Model(request):
         return render(request,'Administrator/Model.html',{"msg":"Data inserted"})
     else:
         return render(request,'Administrator/Model.html',{'modeldata':modeldata,'branddata':branddata,'category':category})
+
 def delmodel(request,did):
     tbl_model.objects.get(id=did).delete()
     return render(request,'Administrator/Model.html',{"msg":"Data deleted"})
+
 def editmodel(request,did):
     editdata=tbl_model.objects.get(id=did)
     editcategory=editdata.brand.category.id
@@ -253,6 +284,7 @@ def editmodel(request,did):
         return render(request,'Administrator/Model.html',{"msg":"Data updated"})
     else:
         return render(request,'Administrator/Model.html',{'editdata':editdata,'category':category,'brand':brand})
+        
 def AjaxBrand(request):
     category=request.GET.get("did")
     branddata=tbl_brand.objects.filter(category=category)

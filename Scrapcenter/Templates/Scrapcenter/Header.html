@@ -36,16 +36,16 @@
                         href="{% url 'Scrapcenter:Home' %}" class="nav-link">Home</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'ViewVehicles' %}active{% endif %}"><a
                         href="{% url 'Scrapcenter:ViewVehicles' %}" class="nav-link">View Vehicles</a></li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'Complaint' %}active{% endif %}"><a
-                        href="{% url 'Scrapcenter:Complaint' %}" class="nav-link">Complaint</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'MyProfile' %}active{% endif %}"><a
                         href="{% url 'Scrapcenter:MyProfile' %}" class="nav-link">My Profile</a></li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'MyProfile' %}active{% endif %}"><a
+                <li class="nav-item {% if request.resolver_match.url_name == 'EditProfile' %}active{% endif %}"><a
                         href="{% url 'Scrapcenter:EditProfile' %}" class="nav-link">Edit Profile</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'MyRequest' %}active{% endif %}"><a
                         href="{% url 'Scrapcenter:MyRequest' %}" class="nav-link">My Request</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'ViewRequest' %}active{% endif %}"><a
                         href="{% url 'Scrapcenter:ViewRequest' %}" class="nav-link">View Request</a></li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'Complaint' %}active{% endif %}"><a
+                        href="{% url 'Scrapcenter:Complaint' %}" class="nav-link">Complaint</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'Login' %}active{% endif %}"><a
                         href="{% url 'Guest:Login' %}" class="nav-link">Logout</a></li>
             </ul>

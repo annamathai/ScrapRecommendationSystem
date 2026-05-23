@@ -12,40 +12,119 @@
 <body>
     <form action="" method="post">
         {% csrf_token %}
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <table class="table table-striped" border="2">
-                    <tr>
-                        <td>S.No</td>
-                        <td>Name</td>
-                        <td>Email</td>
-                        <td>Contact</td>
-                        <td>Address</td>
-                        <td>Gender</td>
-                        <td>DOB</td>
-                        <td>District</td>
-                        <td>Place</td>
-                        <td>Photo</td>
-                        <td>Proof</td>
-                        <td>Action</td>
-                    </tr>
-                    {% for i in userdata %}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{i.user_name}}</td>
-                        <td>{{i.user_email}}</td>
-                        <td>{{i.user_contact}}</td>
-                        <td>{{i.user_address}}</td>
-                        <td>{{i.user_gender}}</td>
-                        <td>{{i.user_dob}}</td>
-                        <td>{{i.place.district.district_name}}</td>
-                        <td>{{i.place.place_name}}</td>
-                        <td><img src="{{i.user_photo.url}}" alt="" width="200"></td>
-                        <td><img src="{{i.user_proof.url}}" alt="" width="200"></td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                </table>
+        <div class="container-fluid pt-4 px-4">
+
+            <div class="bg-light rounded p-4 shadow-sm">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <h4 class="text-dark mb-0">
+                        <i class="fa fa-users me-2 text-primary"></i>
+                        User Management
+                    </h4>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Address</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+                                <th>District</th>
+                                <th>Place</th>
+                                <th>Photo</th>
+                                <th>Proof</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in userdata %}
+                            <tr>
+
+                                <td>{{forloop.counter}}</td>
+
+                                <td>
+                                    {{i.user_name}}
+                                </td>
+
+                                <td>
+                                    {{i.user_email}}
+                                </td>
+
+                                <td>
+                                    {{i.user_contact}}
+                                </td>
+
+                                <td style="min-width: 180px;">
+                                    {{i.user_address}}
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-info text-dark px-3 py-2">
+                                        {{i.user_gender}}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{i.user_dob}}
+                                </td>
+
+                                <td>
+                                    {{i.place.district.district_name}}
+                                </td>
+
+                                <td>
+                                    {{i.place.place_name}}
+                                </td>
+
+                                <!-- User Photo -->
+                                <td>
+
+                                    <img src="{{i.user_photo.url}}" class="img-fluid rounded border" width="100"
+                                        height="100" style="object-fit: cover;">
+
+                                </td>
+
+                                <!-- User Proof -->
+                                <td>
+
+                                    <img src="{{i.user_proof.url}}" class="img-fluid rounded border" width="100"
+                                        height="100" style="object-fit: cover;">
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="11" class="text-center text-muted py-4">
+
+                                    No Users Found
+
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
     </form>
 </body>
 

@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 from Administrator.models import*
 from Guest.models import*
 
+import random
+from django.core.mail import send_mail
+from django.conf import settings
+
 def index(request):
     return render(request,"Guest/index.html")
 
@@ -98,3 +102,67 @@ def ScrapcenterRegistration(request):
         return render(request,'Guest/ScrapcenterRegistration.html',{"msg":"Data inserted"})
     else:
         return render(request,'Guest/ScrapcenterRegistration.html',{'scrapdata':scrapdata,'district':district})
+
+
+def forgotpassword(request):
+    if request.method == "POST":
+        email = request.POST.get("txt_email")
+        otp = random.randint(111111,999999)
+        request.session["otp"] = otp
+        usercount = tbl_user.objects.filter(user_email=email).count()
+        scrapcount=tbl_scrapcenter.objects.filter(scrapcenter_email=email).count()
+        if usercount>0:
+            user = tbl_user.objects.get(user_email=email)
+            request.session["user"] = user.id
+            send_mail(
+                'Forgot password OTP', #subject
+                "\rHello \r" + str(otp) +"\n This is the OTP to reset ur password.\n If you didn't ask to reset your password, you can ignore this email. \r\n Thanks. \r\n.",#body
+                settings.EMAIL_HOST_USER,
+                [email]
+                
+            )
+            return redirect("Guest:otp")
+        elif scrapcount>0:
+            scrap=tbl_scrapcenter.objects.get(scrapcenter_email=email)
+            request.session["scrap"]=scrap.id
+            send_mail(
+                'Forgot password OTP', 
+                "\rHello \r" + str(otp) +"\n This is the OTP to reset ur password.\n If you didn't ask to reset your password, you can ignore this email. \r\n Thanks. \r\n.",
+                settings.EMAIL_HOST_USER,
+                [email]
+                
+            )
+            return redirect("Guest:otp")
+        else:
+            return render(request,"Guest/ForgotPassword.html",{"msg":"Account Not Found"})
+    else:
+        return render(request,"Guest/ForgotPassword.html")
+
+def otp(request):
+    if request.method == "POST":
+        inp_otp = int(request.POST.get("txt_otp"))
+        if inp_otp == request.session["otp"]:
+            return redirect("Guest:newpass")
+        else:
+            return render(request,"Guest/OTP.html",{"msg":"OTP Does not Matches..!!"})
+    else:
+        return render(request,"Guest/OTP.html")
+
+def newpass(request):
+    if request.method == "POST":
+        user = tbl_user.objects.get(id=request.session["user"])
+        scrap=tbl_scrapcenter.objects.get(id=request.session["scrap"])
+        if user:
+            if request.POST.get("txt_newpassword") == request.POST.get("txt_confirmpassword"):
+                user.user_password = request.POST.get("txt_confirmpassword")
+                user.save()
+                return render(request,"Guest/NewPassword.html",{"msg":"Password Updated Sucessfully...."})
+        elif scrap:   
+            if request.POST.get("txt_newpassword") == request.POST.get("txt_confirmpassword"):
+                scrap.scrapcenter_password = request.POST.get("txt_confirmpassword")
+                scrap.save()
+                return render(request,"Guest/NewPassword.html",{"msg":"Password Updated Sucessfully...."})
+        else:   
+            return render(request,"Guest/NewPassword.html",{"msg":"Error in confirm password..!!!"})
+    else:
+        return render(request,"Guest/NewPassword.html")

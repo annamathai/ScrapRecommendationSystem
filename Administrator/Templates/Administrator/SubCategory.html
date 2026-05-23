@@ -12,53 +12,165 @@
 <body>
     <form action="" method="post">
         {% csrf_token %}
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <table class="table table-striped" border="2">
-                    <tr>
-                        <td>Category</td>
-                        <td>
-                            <select name="Category" id="" required>
-                                <option>--select--</option>
-                                {% for i in categories %}
-                                <option {% if editdata.category.id == i.id %} selected {% endif %} value="{{i.id}}">
-                                    {{i.category_name}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Sub Category:</td>
-                        <td><input type="text" name="txt_sub" id="" value="{{editdata.sub_name}}" required placeholder="Enter the SubCategory"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                            <input type="submit" value="Submit">
-                            <input type="reset" value="Cancel">
-                        </td>
-                    </tr>
-                </table>
-                <div class="col-sm-12 col-xl-6">
-                    <div class="bg-light rounded h-100 p-4">
-                        <table class="table table-striped" border="2">
-                            <tr>
-                                <td>S.No</td>
-                                <td>Category</td>
-                                <td>Sub Category</td>
-                                <td>Action</td>
-                            </tr>
-                            {% for i in subcategories %}
-                            <tr>
-                                <td>{{forloop.counter}}</td>
-                                <td>{{i.category.category_name}}</td>
-                                <td>{{i.sub_name}}</td>
-                                <td>
-                                    <a href="{% url 'Administrator:delsub' i.id %}">Delete/</a>
-                                    <a href="{% url 'Administrator:editsub' i.id %}">Edit</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
+        <div class="container-fluid pt-4 px-4">
+
+            <div class="row g-4">
+
+                <!-- Sub Category Form -->
+                <div class="col-sm-12 col-xl-5">
+
+                    <div class="bg-light rounded p-4 shadow-sm">
+
+                        <h4 class="mb-4 text-dark">
+                            <i class="fa fa-layer-group me-2 text-primary"></i>
+                            Sub Category Management
+                        </h4>
+
+                        <form action="" method="post">
+                            {% csrf_token %}
+
+                            <!-- Category -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+                                    Category
+                                </label>
+
+                                <select name="Category" class="form-select" required>
+
+                                    <option value="">-- Select Category --</option>
+
+                                    {% for i in categories %}
+                                    <option value="{{i.id}}" {% if editdata.category.id == i.id %}selected{% endif %}>
+                                        {{i.category_name}}
+                                    </option>
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                            <!-- Sub Category -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold">
+                                    Sub Category Name
+                                </label>
+
+                                <input type="text" name="txt_sub" class="form-control" value="{{editdata.sub_name}}"
+                                    placeholder="Enter Sub Category Name" required>
+
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex gap-2">
+
+                                <button type="submit" class="btn btn-primary px-4">
+
+                                    <i class="fa fa-save me-2"></i>
+                                    Submit
+
+                                </button>
+
+                                <button type="reset" class="btn btn-secondary px-4">
+
+                                    <i class="fa fa-times me-2"></i>
+                                    Cancel
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <!-- Sub Category Table -->
+                <div class="col-sm-12 col-xl-7">
+
+                    <div class="bg-light rounded p-4 shadow-sm">
+
+                        <h4 class="mb-4 text-dark">
+                            <i class="fa fa-list me-2 text-success"></i>
+                            Sub Category List
+                        </h4>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle">
+
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Category</th>
+                                        <th>Sub Category</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for i in subcategories %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+
+                                        <td>
+                                            {{i.category.category_name}}
+                                        </td>
+
+                                        <td>
+                                            {{i.sub_name}}
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <a href="{% url 'Administrator:editsub' i.id %}"
+                                                class="btn btn-sm btn-warning">
+
+                                                <i class="fa fa-edit"></i>
+
+                                            </a>
+
+                                            <a href="{% url 'Administrator:delsub' i.id %}"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this sub category?')">
+
+                                                <i class="fa fa-trash"></i>
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% empty %}
+
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">
+
+                                            No Sub Categories Added
+
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
     </form>
 </body>
 

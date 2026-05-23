@@ -12,66 +12,217 @@
 <body>
     <form action="" method="post">
         {% csrf_token %}
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <table class="table table-striped" border="2">
-                    <tr>
-                        <td>S.No</td>
-                        <td>User Name</td>
-                        <td>Title</td>
-                        <td>Content</td>
-                        <td>Date</td>
-                        <td>Reply</td>
-                        <td>Action</td>
+        <div class="container-fluid pt-4 px-4">
 
-                    </tr>
-                    {% for i in ucdata %}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{i.user.user_name}}</td>
-                        <td>{{i.cmpt_title}}</td>
-                        <td>{{i.cmpt_content}}</td>
-                        <td>{{i.cmpt_date}}</td>
-                        <td>{{i.cmpt_reply}}</td>
-                        <td>
-                            {% if i.cmpt_status == 0 %}
-                            <a href="{% url 'Administrator:Reply' i.id %}">Reply</a>
-                            {% else %}
-                            Replied
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-                <table border="2" align="right">
-                    <tr>
-                        <td>S.No</td>
-                        <td>Center Name</td>
-                        <td>Title</td>
-                        <td>Content</td>
-                        <td>Date</td>
-                        <td>Reply</td>
-                        <td>Action</td>
+            <!-- User Complaints -->
+            <div class="bg-light rounded p-4 shadow-sm mb-4">
 
-                    </tr>
-                    {% for i in scdata %}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{i.scrap.scrapcenter_name}}</td>
-                        <td>{{i.cmpt_title}}</td>
-                        <td>{{i.cmpt_content}}</td>
-                        <td>{{i.cmpt_date}}</td>
-                        <td>{{i.cmpt_reply}}</td>
-                        <td>
-                            {% if i.cmpt_status == 0 %}
-                            <a href="{% url 'Administrator:Reply' i.id %}">Reply</a>
-                            {% else %}
-                            Replied
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
+                <h4 class="mb-4 text-dark">
+                    <i class="fa fa-user-circle me-2 text-primary"></i>
+                    User Complaints
+                </h4>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>S.No</th>
+                                <th>User Name</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Date</th>
+                                <th>Reply</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in ucdata %}
+                            <tr>
+
+                                <td>{{forloop.counter}}</td>
+
+                                <td>
+                                    {{i.user.user_name}}
+                                </td>
+
+                                <td>
+                                    {{i.cmpt_title}}
+                                </td>
+
+                                <td style="min-width: 220px;">
+                                    {{i.cmpt_content}}
+                                </td>
+
+                                <td>
+                                    {{i.cmpt_date}}
+                                </td>
+
+                                <td>
+
+                                    {% if i.cmpt_reply %}
+                                    <span class="text-success">
+                                        {{i.cmpt_reply}}
+                                    </span>
+                                    {% else %}
+                                    <span class="text-muted">
+                                        No Reply
+                                    </span>
+                                    {% endif %}
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    {% if i.cmpt_status == 0 %}
+
+                                    <a href="{% url 'Administrator:Reply' i.id %}" class="btn btn-sm btn-primary">
+
+                                        <i class="fa fa-reply me-1"></i>
+                                        Reply
+
+                                    </a>
+
+                                    {% else %}
+
+                                    <span class="badge bg-success px-3 py-2">
+                                        Replied
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+
+                                    No User Complaints Found
+
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- Scrapcenter Complaints -->
+            <div class="bg-light rounded p-4 shadow-sm">
+
+                <h4 class="mb-4 text-dark">
+                    <i class="fa fa-recycle me-2 text-success"></i>
+                    Scrapcenter Complaints
+                </h4>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Center Name</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Date</th>
+                                <th>Reply</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in scdata %}
+                            <tr>
+
+                                <td>{{forloop.counter}}</td>
+
+                                <td>
+                                    {{i.scrap.scrapcenter_name}}
+                                </td>
+
+                                <td>
+                                    {{i.cmpt_title}}
+                                </td>
+
+                                <td style="min-width: 220px;">
+                                    {{i.cmpt_content}}
+                                </td>
+
+                                <td>
+                                    {{i.cmpt_date}}
+                                </td>
+
+                                <td>
+
+                                    {% if i.cmpt_reply %}
+                                    <span class="text-success">
+                                        {{i.cmpt_reply}}
+                                    </span>
+                                    {% else %}
+                                    <span class="text-muted">
+                                        No Reply
+                                    </span>
+                                    {% endif %}
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    {% if i.cmpt_status == 0 %}
+
+                                    <a href="{% url 'Administrator:Reply' i.id %}" class="btn btn-sm btn-primary">
+
+                                        <i class="fa fa-reply me-1"></i>
+                                        Reply
+
+                                    </a>
+
+                                    {% else %}
+
+                                    <span class="badge bg-success px-3 py-2">
+                                        Replied
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+
+                                    No Scrapcenter Complaints Found
+
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
     </form>
 </body>
 

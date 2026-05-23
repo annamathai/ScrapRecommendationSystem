@@ -13,68 +13,192 @@
 <body>
     <form action="" method="post">
         {% csrf_token %}
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <table class="table table-striped" border="2">
-                    <tr>
-                        <td>Category</td>
-                        <td>
-                            <select name="category" id="category" required>
-                                <option value="">--select--</option>
-                                {% for i in category %}
-                                <option {% if editdata.brand.category.id == i.id %} selected {% endif %} value="{{i.id}}">
-                                    {{i.category_name}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Brand</td>
-                        <td>
-                            <select name="brand" id="brand" required>
-                                {% if editdata.brand %}
-                                {% for i in brand %}
-                                <option {% if editdata.brand == i.id %} selected {% endif %} value="{{i.id}}">
-                                    {{i.brand_name}}</option>
-                                {% endfor %}
-                                {% endif %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Model</td>
-                        <td><input type="text" name="txt_model" id="" value="{{editdata.model_name}}" required placeholder="Enter the model"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                            <input type="submit" value="Submit">
-                            <input type="reset" value="Cancel">
-                        </td>
-                    </tr>
-                </table>
-                <div class="col-sm-12 col-xl-6">
-                    <div class="bg-light rounded h-100 p-4">
-                        <table class="table table-striped" border="2">
+        <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+
+        <!-- Model Form -->
+        <div class="col-sm-12 col-xl-5">
+
+            <div class="bg-light rounded p-4 shadow-sm">
+
+                <h4 class="mb-4 text-dark">
+                    <i class="fa fa-car-side me-2 text-primary"></i>
+                    Model Management
+                </h4>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    <!-- Category -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Category
+                        </label>
+
+                        <select name="category"
+                                id="category"
+                                class="form-select"
+                                required>
+
+                            <option value="">-- Select Category --</option>
+
+                            {% for i in category %}
+                            <option value="{{i.id}}"
+                                {% if editdata.brand.category.id == i.id %}selected{% endif %}>
+                                {{i.category_name}}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Brand
+                        </label>
+
+                        <select name="brand"
+                                id="brand"
+                                class="form-select"
+                                required>
+
+                            <option value="">-- Select Brand --</option>
+
+                            {% if editdata.brand %}
+                            {% for i in brand %}
+                            <option value="{{i.id}}"
+                                {% if editdata.brand.id == i.id %}selected{% endif %}>
+                                {{i.brand_name}}
+                            </option>
+                            {% endfor %}
+                            {% endif %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Model -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-bold">
+                            Model Name
+                        </label>
+
+                        <input type="text"
+                               name="txt_model"
+                               class="form-control"
+                               value="{{editdata.model_name}}"
+                               placeholder="Enter Model Name"
+                               required>
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fa fa-save me-2"></i>
+                            Submit
+                        </button>
+
+                        <button type="reset" class="btn btn-secondary px-4">
+                            <i class="fa fa-times me-2"></i>
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Model Table -->
+        <div class="col-sm-12 col-xl-7">
+
+            <div class="bg-light rounded p-4 shadow-sm">
+
+                <h4 class="mb-4 text-dark">
+                    <i class="fa fa-list me-2 text-success"></i>
+                    Model List
+                </h4>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
                             <tr>
-                                <td>S.No</td>
-                                <td>Category</td>
-                                <td>Brand</td>
-                                <td>Model</td>
-                                <td>Action</td>
+                                <th>S.No</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                                <th class="text-center">Action</th>
                             </tr>
+                        </thead>
+
+                        <tbody>
+
                             {% for i in modeldata %}
                             <tr>
+
                                 <td>{{forloop.counter}}</td>
-                                <td>{{i.brand.category.category_name}}</td>
-                                <td>{{i.brand.brand_name}}</td>
-                                <td>{{i.model_name}}</td>
+
                                 <td>
-                                    <a href="{% url 'Administrator:delmodel' i.id %}">Delete/</a>
-                                    <a href="{% url 'Administrator:editmodel' i.id %}">Edit</a>
+                                    {{i.brand.category.category_name}}
+                                </td>
+
+                                <td>
+                                    {{i.brand.brand_name}}
+                                </td>
+
+                                <td>
+                                    {{i.model_name}}
+                                </td>
+
+                                <td class="text-center">
+
+                                    <a href="{% url 'Administrator:editmodel' i.id %}"
+                                       class="btn btn-sm btn-warning">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+
+                                    <a href="{% url 'Administrator:delmodel' i.id %}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure you want to delete this model?')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    No Models Added
                                 </td>
                             </tr>
                             {% endfor %}
-                        </table>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
     </form>
 </body>
 

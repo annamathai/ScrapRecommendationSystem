@@ -6,5 +6,8 @@ urlpatterns = [
      path('index/',views.index,name="index"),
      path('NewUser/',views.NewUser,name="NewUser"),
      path('AjaxPlace/',views.AjaxPlace,name="AjaxPlace"),
-     path('ScrapcenterRegistration/',views.ScrapcenterRegistration,name="ScrapcenterRegistration")
+     path('ScrapcenterRegistration/',views.ScrapcenterRegistration,name="ScrapcenterRegistration"),
+     path('forgotpassword/',views.forgotpassword,name="forgotpassword"),
+     path('otp/',views.otp,name="otp"),
+     path('newpass/',views.newpass,name="newpass"),
 ]
