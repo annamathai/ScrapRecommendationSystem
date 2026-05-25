@@ -127,16 +127,24 @@
 
                                     {% elif i.request_status == 1 %}
 
-                                    <span class="badge badge-success px-3 py-2">
-                                        Accepted
-                                    </span>
 
+
+                                    <a href="{% url 'User:accept' i.id %}" class="btn btn-success btn-sm mb-1">
+
+                                        <i class="fa fa-check mr-1"></i>
+                                        Accept
+                                    </a>
+
+                                    <a href="{% url 'User:reject' i.id %}" class="btn btn-danger btn-sm mb-1">
+
+                                        <i class="fa fa-times mr-1"></i>
+                                        Reject
+                                    </a>
+
+                                    {% elif i.request_status == 2 %}
+                                    Accepted
                                     {% else %}
-
-                                    <span class="badge badge-danger px-3 py-2">
-                                        Rejected
-                                    </span>
-
+                                    Rejected
                                     {% endif %}
 
                                 </td>

@@ -123,6 +123,7 @@ def RequestReply(request,rid):
         remark=request.POST.get("txt_remark")
         data.request_amount=amount
         data.request_remark=remark
+        data.request_status=1
         data.save()
         return redirect('Scrapcenter:ViewRequest')
     else:

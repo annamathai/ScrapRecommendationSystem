@@ -142,14 +142,18 @@
 
                         <!-- ACTION -->
                         <td>
-
+                            {%if i.request_status == 0 %}
                             <a href="{% url 'Scrapcenter:RequestReply' i.id %}"
                                class="btn btn-warning btn-sm px-3">
 
                                 <i class="fa fa-reply mr-1"></i>
                                 Reply
                             </a>
-
+                            {% elif i.request_status == 2 %}
+                            Accepted
+                            {% else %}
+                            Rejected
+                            {% endif %}
                         </td>
 
                     </tr>

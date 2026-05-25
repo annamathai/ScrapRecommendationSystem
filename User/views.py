@@ -255,3 +255,14 @@ def MyRequest(request):
 def ViewRequest(request): 
     reqdata=tbl_request.objects.filter(vehicle__user=request.session['uid'])
     return render(request,'User/ViewRequest.html',{'reqdata':reqdata})
+def reject(request,id):
+    data = tbl_sendrequest.objects.get(id=id)
+    data.request_status = 3
+    data.save()
+    return redirect("User:MyRequest")
+
+def accept(request,id):
+    data = tbl_sendrequest.objects.get(id=id)
+    data.request_status = 2
+    data.save()
+    return redirect("User:MyRequest")
