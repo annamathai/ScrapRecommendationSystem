@@ -23,6 +23,8 @@ urlpatterns = [
      path('reject/<int:id>/', views.reject, name='reject'),
      path('ViewScrapcenter/<int:vid>/',views.ViewScrapcenter,name="ViewScrapcenter"),
      path('Request/<int:vid>/<int:sid>/',views.Request,name="Request"),
-     path('MyRequest/',views.MyRequest,name="MyRequest")
+     path('MyRequest/',views.MyRequest,name="MyRequest"),
+     path('Priceprediction/',views.Priceprediction,name="Priceprediction"),
+     path('Logout/',views.Logout,name="Logout"),
 ]
 

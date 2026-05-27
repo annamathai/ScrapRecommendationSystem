@@ -73,7 +73,7 @@
           <li class="nav-item {% if request.resolver_match.url_name == 'Complaint' %}active{% endif %}"><a
               href="{% url 'Scrapcenter:Complaint' %}" class="nav-link">Complaint</a></li>
           <li class="nav-item {% if request.resolver_match.url_name == 'Login' %}active{% endif %}"><a
-              href="{% url 'Guest:Login' %}" class="nav-link">Logout</a></li>
+              href="{% url 'Scrapcenter:Logout' %}" class="nav-link">Logout</a></li>
         </ul>
       </div>
     </div>

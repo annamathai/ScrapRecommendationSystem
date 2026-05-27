@@ -38,5 +38,6 @@ urlpatterns = [
     path('editmodel/<int:did>/',views.editmodel,name="editmodel"),
     path('ScrapRate/',views.ScrapRate,name="ScrapRate"),
     path('delrate/<int:did>/',views.delrate,name="delrate"),
-    path('editrate/<int:did>/',views.editrate,name="editrate")
+    path('editrate/<int:did>/',views.editrate,name="editrate"),
+    path('Logout/',views.Logout,name="Logout"),
 ]

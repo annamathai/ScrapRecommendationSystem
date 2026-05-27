@@ -18,6 +18,8 @@ MODEL_PATH = os.path.join("Assets", "Model", "vehicle_weight_model.pkl")
 loaded_pipeline = joblib.load(MODEL_PATH)
 
 def Priceprediction(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     brandadata=tbl_brand.objects.all()
     typedata=tbl_type.objects.all()
     if 'uid' in request.session:
@@ -31,7 +33,7 @@ def Priceprediction(request):
             typed=typed.type_name
 
             model=request.POST.get('SelectModel')
-            model=tbl_vehiclemodels.objects.get(id=model)
+            model=tbl_model.objects.get(id=model)
             model=model.model_name
 
             fuel=request.POST.get('SelectFuelType')
@@ -52,9 +54,13 @@ def Priceprediction(request):
         return redirect("Guest:Login")
 
 def HomePage(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     return render(request,'User/HomePage.html')
 
 def EditProfile(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     userdata=tbl_user.objects.get(id=request.session["uid"])
     if request.method=="POST":
         name=request.POST.get("txt_name")
@@ -71,10 +77,14 @@ def EditProfile(request):
         return render(request,'User/EditProfile.html',{'userdata':userdata})
 
 def MyProfile(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     userdata=tbl_user.objects.get(id=request.session["uid"])
     return render(request,'User/MyProfile.html',{'userdata':userdata})
 
 def ChangePassword(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     userdata=tbl_user.objects.get(id=request.session["uid"])
     if request.method=="POST":
         opassword=request.POST.get("txt_opassword")
@@ -92,6 +102,8 @@ def ChangePassword(request):
     return render(request,'User/ChangePassword.html',{'userdata':userdata})
 
 def Complaint(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     userid=tbl_user.objects.get(id=request.session["uid"])
     cmptdata=tbl_complaint.objects.filter(user=userid)
     if request.method=="POST":
@@ -107,10 +119,14 @@ def Complaint(request):
         return render(request,'User/Complaint.html',{'cmptdata':cmptdata})
         
 def delcmpt(request,did):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     tbl_complaint.objects.get(id=did).delete()
     return render(request,'User/Complaint.html',{"msg":"Data deleted"})
 
 def editcmpt(request,did):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     editdata=tbl_complaint.objects.get(id=did)
     if request.method=="POST":
         title=request.POST.get("txt_title")
@@ -123,6 +139,8 @@ def editcmpt(request,did):
         return render(request,'User/Complaint.html',{'editdata':editdata})
 
 def Feedback(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     fbdata=tbl_feedback.objects.all()
     userid=tbl_user.objects.get(id=request.session["uid"])
     if request.method=="POST":
@@ -136,10 +154,14 @@ def Feedback(request):
         return render(request,'User/Feedback.html',{'fbdata':fbdata})
 
 def delfb(request,did):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     tbl_feedback.objects.get(id=did).delete()
     return render(request,'User/Feedback.html',{"msg":"Data deleted"})
 
 def editfb(request,did):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     editdata=tbl_feedback.objects.get(id=did)
     if request.method=="POST":
         content=request.POST.get("txt_feedback")
@@ -150,6 +172,8 @@ def editfb(request,did):
         return render(request,'User/Feedback.html',{'editdata':editdata})
 
 def AddVehicle(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     avdata=tbl_addvehicle.objects.all()
     categorydata=tbl_category.objects.all()
     userid=tbl_user.objects.get(id=request.session["uid"])
@@ -183,6 +207,7 @@ def AddVehicle(request):
 
 def AjaxModel(request):
     brand=request.GET.get("did")
+    print(brand)
     modeldata=tbl_model.objects.filter(brand=brand)
     return render(request,"User/AjaxModel.html",{'model':modeldata})
 
@@ -192,10 +217,14 @@ def AjaxBrand(request):
     return render(request,'User/AjaxBrand.html',{'brand': branddata})
 
 def delav(request,did):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     tbl_addvehicle.objects.get(id=did).delete()
     return render(request,'User/AddVehicle.html',{"msg":"Data deleted"})
 
 def Gallery(request,vid):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     vehicleid=tbl_addvehicle.objects.get(id=vid)
     galdata=tbl_gallery.objects.all()
     if request.method=="POST":
@@ -209,10 +238,14 @@ def Gallery(request,vid):
         return render(request,'User/Gallery.html',{'galdata':galdata,'vid':vid})
 
 def delgal(request,did,vid):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     tbl_gallery.objects.get(id=did).delete()
     return render(request,'User/Gallery.html',{"msg":"Data deleted",'vid':vid})
 
 def ViewRequest(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     avdata=tbl_addvehicle.objects.all()
     reqdata=tbl_request.objects.all()
     scrapdata=tbl_scrapcenter.objects.all()
@@ -220,22 +253,30 @@ def ViewRequest(request):
     return render(request,'User/ViewRequest.html',{'avdata':avdata,'reqdata':reqdata,'scrapdata':scrapdata})
 
 def reject(request,id):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     data = tbl_request.objects.get(id=id)
     data.request_status = 2
     data.save()
     return redirect("User:ViewRequest")
 
 def accept(request,id):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     data = tbl_request.objects.get(id=id)
     data.request_status = 1
     data.save()
     return redirect("User:ViewRequest")
     
 def ViewScrapcenter(request,vid):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     scrapdata=tbl_scrapcenter.objects.filter(scrapcenter_status=1)
     return render(request,'User/ViewScrapcenter.html',{'scrapdata':scrapdata,'vid':vid})
 
 def Request(request,vid,sid):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     reqdata=tbl_sendrequest.objects.filter(vehicle__user=request.session['uid'])
     vehicleid=tbl_addvehicle.objects.get(id=vid)
     scrapid=tbl_scrapcenter.objects.get(id=sid)
@@ -246,6 +287,8 @@ def Request(request,vid,sid):
     return redirect("User:MyRequest")
 
 def MyRequest(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     avdata=tbl_addvehicle.objects.all()
     reqdata=tbl_sendrequest.objects.filter(vehicle__user=request.session['uid'])
     scrapdata=tbl_scrapcenter.objects.all()
@@ -253,16 +296,29 @@ def MyRequest(request):
     return render(request,'User/MyRequest.html',{'avdata':avdata,'reqdata':reqdata,'scrapdata':scrapdata})
 
 def ViewRequest(request): 
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     reqdata=tbl_request.objects.filter(vehicle__user=request.session['uid'])
     return render(request,'User/ViewRequest.html',{'reqdata':reqdata})
+
 def reject(request,id):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     data = tbl_sendrequest.objects.get(id=id)
     data.request_status = 3
     data.save()
     return redirect("User:MyRequest")
 
 def accept(request,id):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
     data = tbl_sendrequest.objects.get(id=id)
     data.request_status = 2
     data.save()
     return redirect("User:MyRequest")
+
+def Logout(request):
+    if 'uid' not in request.session:
+        return redirect('Guest:Login')
+    del request.session['uid']
+    return redirect('Guest:Login')

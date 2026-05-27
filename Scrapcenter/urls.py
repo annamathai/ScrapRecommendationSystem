@@ -14,4 +14,5 @@ urlpatterns = [
     path('MyRequest/',views.MyRequest,name="MyRequest"),
     path('ViewRequest/',views.ViewRequest,name="ViewRequest"),
     path('RequestReply/<int:rid>/',views.RequestReply,name="RequestReply"),
+    path('Logout/',views.Logout,name="Logout"),
 ]

@@ -97,6 +97,9 @@
                     <a href="{% url 'Administrator:ViewFeedback' %}"
                         class="nav-item nav-link {% if request.resolver_match.url_name == 'ViewFeedback' %}active{% endif %}"><i
                             class="fa fa-eye me-2"></i>View Feedback</a>
+                    <a href="{% url 'Administrator:Logout' %}"
+                        class="nav-item nav-link {% if request.resolver_match.url_name == 'Logout' %}active{% endif %}"><i
+                            class="fa fa-eye me-2"></i>Logout</a>
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="far fa-file-alt me-2"></i>Pages</a>

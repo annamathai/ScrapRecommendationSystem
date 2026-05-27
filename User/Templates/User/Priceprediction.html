@@ -1,3 +1,6 @@
+{% extends 'User/Header.html' %}
+
+{% block content %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -191,23 +194,27 @@
                 </div>
 
                 <div class="input-box">
-                    <i class="fa-solid fa-globe"></i>
-                    <select name="SelectType" id="sel_type" required>
-                        <option value="">Type</option>
+                    <i class="fa-solid fa-angles-right"></i>
+                    <select name="SelectModel" id="selmodel" required>
+                        <option value="">Select Model</option>
+                        <!-- <option value=""></option> -->
                     </select>
                 </div>
 
                 <div class="input-box">
-                    <i class="fa-solid fa-angles-right"></i>
-                    <select name="SelectModel" id="selmodel" required>
-                        <option value="">Model</option>
+                    <i class="fa-solid fa-globe"></i>
+                    <select name="SelectType" id="sel_type" required>
+                        <option value="">Select Type</option>
+                        {% for i in type %}
+                        <option value="{{i.id}}">{{i.type_name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
-
+                
                 <div class="input-box">
                     <i class="fa-solid fa-gas-pump"></i>
                     <select name="SelectFuelType" id="sel_fueltype" required>
-                        <option value="">Type</option>
+                        <option value="">Select Type</option>
                         <option value="Petrol">Petrol</option>
                         <option value="Diesel">Diesel</option>
                         <option value="Electric">Electric</option>
@@ -260,31 +267,18 @@
 
 <script>
     $("#sel_brand").change(function () {
-        var bid = $(this).val();
-        var ur = "{% url 'User:ajaxtype' %}"
+        var did = $(this).val();
+        var ur = "{% url 'User:AjaxModel' %}"
         $.ajax({
             url: ur,
-            data: { bid: bid },
-            success: function (data) {
-                $("#sel_type").html(data);
-            }
-        });
-    });
-</script>
-
-<script>
-    $("#sel_type").change(function () {
-        var tid = $(this).val();
-        var ur = "{% url 'User:ajaxmodel' %}"
-        $.ajax({
-            url: ur,
-            data: { tid: tid },
+            data: { did: did },
             success: function (data) {
                 $("#selmodel").html(data);
             }
         });
     });
 </script>
+
 
 {% if msgdata %}
 <script>
@@ -295,3 +289,5 @@
 
 </body>
 </html>
+
+{% endblock %}

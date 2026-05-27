@@ -8,10 +8,14 @@ def Home(request):
     return render(request,'Scrapcenter/Home.html')
 
 def MyProfile(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     scrapdata=tbl_scrapcenter.objects.get(id=request.session["sid"])
     return render(request,'Scrapcenter/MyProfile.html',{'scrapdata':scrapdata})
 
 def EditProfile(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     scrapdata=tbl_scrapcenter.objects.get(id=request.session["sid"])
     if request.method=="POST":
         name=request.POST.get("txt_name")
@@ -28,6 +32,8 @@ def EditProfile(request):
         return render(request,'Scrapcenter/EditProfile.html',{'scrapdata':scrapdata})
 
 def ChangePassword(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     scrapdata=tbl_scrapcenter.objects.get(id=request.session["sid"])
     if request.method=="POST":
         opassword=request.POST.get("txt_opassword")
@@ -45,6 +51,8 @@ def ChangePassword(request):
     return render(request,'Scrapcenter/ChangePassword.html',{'scrapdata':scrapdata})
 
 def Complaint(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     scrapid=tbl_scrapcenter.objects.get(id=request.session["sid"])
     cmptdata=tbl_complaint.objects.filter(scrap=scrapid)
     if request.method=="POST":
@@ -60,10 +68,14 @@ def Complaint(request):
         return render(request,'Scrapcenter/Complaint.html',{'cmptdata':cmptdata})
 
 def delcmpt(request,sid):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     tbl_complaint.objects.get(id=sid).delete()
     return render(request,'Scrapcenter/Complaint.html',{"msg":"Data deleted"})
 
 def editcmpt(request,sid):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     editdata=tbl_complaint.objects.get(id=sid)
     if request.method=="POST":
         title=request.POST.get("txt_title")
@@ -76,6 +88,8 @@ def editcmpt(request,sid):
         return render(request,'Scrapcenter/Complaint.html',{'editdata':editdata})
 
 def ViewVehicles(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     userdata=tbl_user.objects.all()
     categorydata=tbl_category.objects.all()
     branddata=tbl_brand.objects.all()
@@ -89,6 +103,8 @@ def ViewVehicles(request):
                                                             'avdata':avdata})
 
 def Request(request,vid):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     reqdata=tbl_request.objects.all()
     vehicleid=tbl_addvehicle.objects.get(id=vid)
     scrapid=tbl_scrapcenter.objects.get(id=request.session["sid"])
@@ -106,10 +122,14 @@ def Request(request,vid):
         return render(request,'Scrapcenter/Request.html',{'reqdata':reqdata,'vid':vid})
 
 def MyRequest(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     reqdata=tbl_request.objects.filter(scrapcenter=request.session["sid"])
     return render(request,'Scrapcenter/MyRequest.html',{'reqdata':reqdata})
 
 def ViewRequest(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     reqdata=tbl_sendrequest.objects.filter(scrapcenter=request.session["sid"])
     userdata=tbl_user.objects.all()
     avdata=tbl_addvehicle.objects.all()
@@ -117,6 +137,8 @@ def ViewRequest(request):
     return render(request,'Scrapcenter/ViewRequest.html',{'reqdata':reqdata,'userdata':userdata,'avdata':avdata})
 
 def RequestReply(request,rid): 
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
     data=tbl_sendrequest.objects.get(id=rid)
     if request.method=='POST':
         amount=request.POST.get("txt_amount")
@@ -128,3 +150,9 @@ def RequestReply(request,rid):
         return redirect('Scrapcenter:ViewRequest')
     else:
         return render(request,'Scrapcenter/Request.html')
+
+def Logout(request):
+    if 'sid' not in request.session:
+        return redirect('Guest:Login')
+    del request.session['sid']
+    return redirect('Guest:Login')

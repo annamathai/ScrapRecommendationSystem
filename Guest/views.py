@@ -81,6 +81,7 @@ def ScrapcenterRegistration(request):
     if request.method=="POST":
         name=request.POST.get("txt_name")
         email=request.POST.get("txt_email")
+        otp = random.randint(1000, 9999)
         contact=request.POST.get("txt_contact")
         address=request.POST.get("txt_address")
         district=request.POST.get("txt_district")
