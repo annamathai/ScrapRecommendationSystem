@@ -4,6 +4,10 @@ from User.models import*
 from Administrator.models import*
 from Scrapcenter.models import* 
 
+import random
+from django.core.mail import send_mail
+from django.conf import settings
+
 #ml import
 import os
 import pandas as pd
@@ -13,6 +17,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import joblib
+
+from django.db.models import Q
+from datetime import datetime 
 
 MODEL_PATH = os.path.join("Assets", "Model", "vehicle_weight_model.pkl")
 loaded_pipeline = joblib.load(MODEL_PATH)
@@ -174,7 +181,7 @@ def editfb(request,did):
 def AddVehicle(request):
     if 'uid' not in request.session:
         return redirect('Guest:Login')
-    avdata=tbl_addvehicle.objects.all()
+    avdata=tbl_addvehicle.objects.filter(user=request.session["uid"])
     categorydata=tbl_category.objects.all()
     userid=tbl_user.objects.get(id=request.session["uid"])
     branddata=tbl_brand.objects.all()
@@ -252,20 +259,37 @@ def ViewRequest(request):
     galdata=tbl_gallery.objects.all()
     return render(request,'User/ViewRequest.html',{'avdata':avdata,'reqdata':reqdata,'scrapdata':scrapdata})
 
-def reject(request,id):
+def rejectreq(request,id):
     if 'uid' not in request.session:
         return redirect('Guest:Login')
     data = tbl_request.objects.get(id=id)
+    email=data.scrapcenter.scrapcenter_email
+    vehicle_name=data.vehicle.model.brand.brand_name
     data.request_status = 2
     data.save()
+    send_mail(
+            'Request Rejected', 
+            "\rHello  We are pleased to inform you that your request for &nbsp" + str(vehicle_name) + "&nbsp has been rejected. Thank you\r",
+            settings.EMAIL_HOST_USER,
+            [email]  
+            )
     return redirect("User:ViewRequest")
 
-def accept(request,id):
+def acceptreq(request,id):
     if 'uid' not in request.session:
         return redirect('Guest:Login')
     data = tbl_request.objects.get(id=id)
+    email=data.scrapcenter.scrapcenter_email
+    vehicle_name=data.vehicle.model.brand.brand_name
     data.request_status = 1
+    vehicle_name=data.vehicle.model.brand.brand_name
     data.save()
+    send_mail(
+            'Request Accepted', 
+            "\rHello  We are pleased to inform you that your request for &nbsp" + str(vehicle_name) + "&nbsp has been accepted successfully.Thank you \r",
+            settings.EMAIL_HOST_USER,
+            [email]  
+            )
     return redirect("User:ViewRequest")
     
 def ViewScrapcenter(request,vid):
@@ -305,16 +329,32 @@ def reject(request,id):
     if 'uid' not in request.session:
         return redirect('Guest:Login')
     data = tbl_sendrequest.objects.get(id=id)
+    vehicle_name=data.vehicle.model.brand.brand_name
+    email=data.scrapcenter.scrapcenter_email
     data.request_status = 3
     data.save()
+    send_mail(
+            'Request Rejected', 
+            "\rHello  We are pleased to inform you that your request for &nbsp" + str(brand) + "&nbsp has been rejected.Thank you \r",
+            settings.EMAIL_HOST_USER,
+            [email]  
+            )
     return redirect("User:MyRequest")
 
 def accept(request,id):
     if 'uid' not in request.session:
         return redirect('Guest:Login')
     data = tbl_sendrequest.objects.get(id=id)
+    email=data.scrapcenter.scrapcenter_email
+    vehicle_name=data.vehicle.model.brand.brand_name
     data.request_status = 2
     data.save()
+    send_mail(
+            'Request Accepted', 
+            "\rHello  We are pleased to inform you that your request for &nbsp" + str(vehicle_name) + "&nbsp has been accepted successfully.Thank you \r",
+            settings.EMAIL_HOST_USER,
+            [email]  
+            )
     return redirect("User:MyRequest")
 
 def Logout(request):
@@ -322,3 +362,24 @@ def Logout(request):
         return redirect('Guest:Login')
     del request.session['uid']
     return redirect('Guest:Login')
+
+def chatpage(request,id):
+    scrapcenter=tbl_scrapcenter.objects.get(id=id)
+    return render(request,"User/Chat.html",{"scrapcenter":scrapcenter})
+
+def clearchat(request):
+    tbl_chat.objects.filter(Q(user_from=request.session["uid"]) & Q(scrapcenter_to=request.GET.get("tid")) | (Q(scrapcenter_from=request.GET.get("tid")) & Q(user_to=request.session["uid"]))).delete()
+    return render(request,"User/ClearChat.html",{"msg":"Chat Deleted Sucessfully...."})
+
+def ajaxchat(request):
+    from_user = tbl_user.objects.get(id=request.session["uid"])
+    to_scrapcenter = tbl_scrapcenter.objects.get(id=request.POST.get("tid"))
+    print(to_scrapcenter)
+    tbl_chat.objects.create(chat_content=request.POST.get("msg"),chat_time=datetime.now(),user_from=from_user,scrapcenter_to=to_scrapcenter,chat_file=request.FILES.get("file"))
+    return render(request,"User/Chat.html")
+
+def ajaxchatview(request):
+    tid = request.GET.get("tid")
+    user = tbl_user.objects.get(id=request.session["uid"])
+    chat_data = tbl_chat.objects.filter((Q(user_from=user) | Q(user_to=user)) & (Q(scrapcenter_from=tid) | Q(scrapcenter_to=tid))).order_by('chat_time')
+    return render(request,"User/ChatView.html",{"data":chat_data,"tid":int(tid)})

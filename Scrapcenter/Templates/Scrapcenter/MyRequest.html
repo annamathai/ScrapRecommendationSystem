@@ -132,19 +132,19 @@
                         <td>
 
                             {% if i.request_status == 0 %}
-
+                            <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                                 <span class="badge badge-warning px-3 py-2">
                                     Pending
                                 </span>
 
                             {% elif i.request_status == 1 %}
-
+                                <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                                 <span class="badge badge-success px-3 py-2">
                                     Accepted
                                 </span>
 
                             {% else %}
-
+                                <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                                 <span class="badge badge-danger px-3 py-2">
                                     Rejected
                                 </span>

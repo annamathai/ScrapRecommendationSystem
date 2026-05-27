@@ -15,4 +15,8 @@ urlpatterns = [
     path('ViewRequest/',views.ViewRequest,name="ViewRequest"),
     path('RequestReply/<int:rid>/',views.RequestReply,name="RequestReply"),
     path('Logout/',views.Logout,name="Logout"),
+    path('chatpage/<int:id>',views.chatpage,name="chatpage"),
+    path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
+    path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
+    path('clearchat/',views.clearchat,name="clearchat"),
 ]

@@ -3,6 +3,8 @@ from Guest.models import*
 from User.models import*
 from Scrapcenter.models import*
 
+from django.db.models import Q
+from datetime import datetime 
 
 def Home(request):
     return render(request,'Scrapcenter/Home.html')
@@ -156,3 +158,23 @@ def Logout(request):
         return redirect('Guest:Login')
     del request.session['sid']
     return redirect('Guest:Login')
+
+def chatpage(request,id):
+    user  = tbl_user.objects.get(id=id)
+    return render(request,"Scrapcenter/Chat.html",{"user":user})
+
+def ajaxchat(request):
+    from_scrapcenter = tbl_scrapcenter.objects.get(id=request.session["aid"])
+    to_user = tbl_user.objects.get(id=request.POST.get("tid"))
+    tbl_chat.objects.create(chat_content=request.POST.get("msg"),chat_time=datetime.now(),scrapcenter_from=from_scrapcenter,user_to=to_user,chat_file=request.FILES.get("file"))
+    return render(request,"Scrapcenter/Chat.html")
+
+def ajaxchatview(request):
+    tid = request.GET.get("tid")
+    scrapcenter = tbl_scrapcenter.objects.get(id=request.session["aid"])
+    chat_data = tbl_chat.objects.filter((Q(scrapcenter_from=scrapcenter) | Q(scrapcenter_to=scrapcenter)) & (Q(user_from=tid) | Q(user_to=tid))).order_by('chat_time')
+    return render(request,"Scrapcenter/ChatView.html",{"data":chat_data,"tid":int(tid)})
+
+def clearchat(request):
+    tbl_chat.objects.filter(Q(scrapcenter_from=request.session["aid"]) & Q(user_to=request.GET.get("tid")) | (Q(user_from=request.GET.get("tid")) & Q(scrapcenter_to=request.session["aid"]))).delete()
+    return render(request,"Scrapcenter/ClearChat.html",{"msg":"Chat Deleted Sucessfully...."})

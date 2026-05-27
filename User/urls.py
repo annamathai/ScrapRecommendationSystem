@@ -21,10 +21,17 @@ urlpatterns = [
      path('ViewRequest/',views.ViewRequest,name="ViewRequest"),
      path('accept/<int:id>/', views.accept, name='accept'),
      path('reject/<int:id>/', views.reject, name='reject'),
+     path('acceptreq/<int:id>/', views.acceptreq, name='acceptreq'),
+     path('rejectreq/<int:id>/', views.rejectreq, name='rejectreq'),
      path('ViewScrapcenter/<int:vid>/',views.ViewScrapcenter,name="ViewScrapcenter"),
      path('Request/<int:vid>/<int:sid>/',views.Request,name="Request"),
      path('MyRequest/',views.MyRequest,name="MyRequest"),
      path('Priceprediction/',views.Priceprediction,name="Priceprediction"),
      path('Logout/',views.Logout,name="Logout"),
+     path('chatpage/<int:id>',views.chatpage,name="chatpage"),
+     path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
+     path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
+     path('clearchat/',views.clearchat,name="clearchat"),
+
 ]
 

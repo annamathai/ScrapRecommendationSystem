@@ -68,7 +68,7 @@ def NewUser(request):
             return render(request,'Guest/NewUser.html',{"msg":"password mismatch"})
     else:
         return render(request,'Guest/NewUser.html',{"district":district})
-
+    
 def AjaxPlace(request):
     district=request.GET.get("did")
     placedata=tbl_place.objects.filter(district=district)
@@ -100,10 +100,15 @@ def ScrapcenterRegistration(request):
             scrapcenter_password=password,
             place=placeid
         )
+        send_mail(
+            'Registration Verification', 
+            "\rHello  This is to inform you about the scrapcenter registration in CarBook.Please wait for the verification email.\n If you didn't register, you can ignore this email. \r\n Thanks. \r\n.",
+            settings.EMAIL_HOST_USER,
+            [email]  
+            )
         return render(request,'Guest/ScrapcenterRegistration.html',{"msg":"Data inserted"})
     else:
         return render(request,'Guest/ScrapcenterRegistration.html',{'scrapdata':scrapdata,'district':district})
-
 
 def forgotpassword(request):
     if request.method == "POST":

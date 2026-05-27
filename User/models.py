@@ -36,3 +36,12 @@ class tbl_sendrequest(models.Model):
     request_remark=models.CharField(max_length=50,null=True)
     vehicle=models.ForeignKey(tbl_addvehicle,on_delete=models.CASCADE)
     scrapcenter=models.ForeignKey(tbl_scrapcenter,on_delete=models.CASCADE)
+
+class tbl_chat(models.Model):
+    chat_content = models.CharField(max_length=500)
+    chat_time = models.DateTimeField()
+    chat_file = models.FileField(upload_to='ChatFiles/')
+    user_from = models.ForeignKey(tbl_user,on_delete=models.CASCADE,related_name="user_from",null=True)
+    user_to = models.ForeignKey(tbl_user,on_delete=models.CASCADE,related_name="user_to",null=True)
+    scrapcenter_to = models.ForeignKey(tbl_scrapcenter,on_delete=models.CASCADE,related_name="scrapcenter_to",null=True)
+    scrapcenter_from = models.ForeignKey(tbl_scrapcenter,on_delete=models.CASCADE,related_name="scrapcenter_from",null=True)

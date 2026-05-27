@@ -3,6 +3,11 @@ from Administrator.models import*
 from Guest.models import*
 from User.models import*
 from Scrapcenter.models import*
+
+import random
+from django.core.mail import send_mail
+from django.conf import settings
+
 def District(request):
     if 'aid' not in request.session:
         return redirect('Guest:Login')
@@ -48,6 +53,12 @@ def AdminRegistration(request):
             admin_email=adminemail,
             admin_contact=admincontact,
             admin_password=adminpassword)
+        send_mail(
+            'Registration Verification', 
+            "\rHello  This is to inform you about the admin registration in CarBook.Thankyou for registering\n If you didn't register, you can ignore this email. \r\n Thanks. \r\n.",
+            settings.EMAIL_HOST_USER,
+            [adminemail]  
+            )
         return render(request,'Administrator/AdminRegistration.html',{"msg":"data inserted"})
     else:
         return render(request,'Administrator/AdminRegistration.html',{'admindata':admindata})
@@ -264,14 +275,16 @@ def Home(request):
     admin=request.session["aname"]
     vehicle_count = tbl_addvehicle.objects.count()
     user_count = tbl_user.objects.count()
-    scrap_count = tbl_scrapcenter.objects.count()
+    scrap_count = tbl_scrapcenter.objects.filter(scrapcenter_status=1).count()
     feedback_count = tbl_feedback.objects.count()
+    recentscrap=tbl_scrapcenter.objects.filter(scrapcenter_status=0).order_by('-id')[:5]
+    recentuser=tbl_user.objects.all().order_by('-id')[:5]
     return render(request, "Administrator/Home.html", {
         'vehicle_count': vehicle_count,
         'user_count': user_count,
         'scrap_count': scrap_count,
         'feedback_count': feedback_count,
-        'name':admin
+        'name':admin,'recentscrap':recentscrap,"recentuser":recentuser
     })
    
 def ViewComplaint(request):
@@ -312,7 +325,14 @@ def accept(request,did):
     data=tbl_scrapcenter.objects.get(id=did)
     data.scrapcenter_status=1
     data.save()
+    send_mail(
+        'Registration Verification', 
+        "\rHello  This is to inform you about the verification of scrapcenter registration in CarBook.Now you can log into your account.Thankyou for registering.\n If you didn't register, you can ignore this email. \r",
+        settings.EMAIL_HOST_USER,
+        [data.scrapcenter_email]  
+        )
     return render(request,'Administrator/ScrapcenterList.html',{"msg":"Verified"})
+    
 
 def reject(request,did):
     if 'aid' not in request.session:
@@ -320,6 +340,12 @@ def reject(request,did):
     data=tbl_scrapcenter.objects.get(id=did)
     data.scrapcenter_status=2
     data.save()
+    send_mail(
+        'Registration Verification', 
+        "\rHello  This is to inform you about the rejection of scrapcenter registration in CarBook.Thankyou for reaching.\n If you didn't register, you can ignore this email. \r",
+        settings.EMAIL_HOST_USER,
+        [data.scrapcenter_email]  
+        )
     return render(request,'Administrator/ScrapcenterList.html',{"msg":"Rejected"})
 
 def Model(request):
