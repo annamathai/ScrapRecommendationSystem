@@ -383,3 +383,13 @@ def ajaxchatview(request):
     user = tbl_user.objects.get(id=request.session["uid"])
     chat_data = tbl_chat.objects.filter((Q(user_from=user) | Q(user_to=user)) & (Q(scrapcenter_from=tid) | Q(scrapcenter_to=tid))).order_by('chat_time')
     return render(request,"User/ChatView.html",{"data":chat_data,"tid":int(tid)})
+
+def Sold(request,id):
+
+    vehicle = tbl_addvehicle.objects.get(id=id)
+
+    vehicle.vehicle_status = 1
+
+    vehicle.save()
+
+    return redirect("User:AddVehicle")

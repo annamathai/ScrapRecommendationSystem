@@ -142,7 +142,7 @@
 
                         <!-- ACTION -->
                         <td>
-                            {%if i.request_status == 0 %}
+                            {% if i.request_status == 0 %}
                             <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                             <a href="{% url 'Scrapcenter:RequestReply' i.id %}"
                                class="btn btn-warning btn-sm px-3">
@@ -156,9 +156,13 @@
                             {% elif i.request_status == 2 %}
                             <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                             Accepted
+                            <a href="{% url 'Scrapcenter:Payment' i.id %}">Click to pay</a>
                             {% else %}
                             <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                             Rejected
+                            {% endif %}
+                            {% if i.request.vehicle.vehicle_staus == 2 %}
+                            Paid
                             {% endif %}
                         </td>
 

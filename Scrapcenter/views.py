@@ -96,7 +96,7 @@ def ViewVehicles(request):
     categorydata=tbl_category.objects.all()
     branddata=tbl_brand.objects.all()
     modeldata=tbl_model.objects.all()
-    avdata=tbl_addvehicle.objects.all()
+    avdata=tbl_addvehicle.objects.filter(vehicle_status=0)
     galdata=tbl_gallery.objects.all()
     return render(request,'Scrapcenter/ViewVehicles.html',{'userdata':userdata,
                                                             'categorydata':categorydata,
@@ -178,3 +178,18 @@ def ajaxchatview(request):
 def clearchat(request):
     tbl_chat.objects.filter(Q(scrapcenter_from=request.session["aid"]) & Q(user_to=request.GET.get("tid")) | (Q(user_from=request.GET.get("tid")) & Q(scrapcenter_to=request.session["aid"]))).delete()
     return render(request,"Scrapcenter/ClearChat.html",{"msg":"Chat Deleted Sucessfully...."})
+def Payment(request,id):
+    requestdata = tbl_request.objects.get(id=id)
+    vehicle = requestdata.vehicle
+    if request.method == "POST":
+        method = request.POST.get("payment_method")
+        upi = request.POST.get("upi")
+        card = request.POST.get("card_number")
+        cvv = request.POST.get("cvv")
+        expiry = request.POST.get("expiry")
+        bank = request.POST.get("bank")
+        vehicle.vehicle_status = 2
+        vehicle.save()
+        return render(request,"Scrapcenter/Payment.html",{"msg":"Payment Successful"})
+    else:
+        return render(request,"Scrapcenter/Payment.html")

@@ -1,0 +1,190 @@
+{% extends 'User/Header.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+
+        <h3 class="text-center mb-4">
+            Payment
+        </h3>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <!-- Payment Method -->
+
+            <div class="mb-3">
+
+                <label>
+                    Payment Method
+                </label>
+
+                <select name="payment_method"
+                        id="payment_method"
+                        class="form-control"
+                        onchange="showFields()">
+
+                    <option value="">
+                        --Select--
+                    </option>
+
+                    <option value="UPI">
+                        UPI
+                    </option>
+
+                    <option value="Card">
+                        Card
+                    </option>
+
+                    <option value="Net Banking">
+                        Net Banking
+                    </option>
+
+                    <option value="Cash">
+                        Cash
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- UPI -->
+
+            <div id="upi_field"
+                 style="display:none;">
+
+                <label>
+                    UPI ID
+                </label>
+
+                <input type="text"
+                       name="upi"
+                       class="form-control"
+                       placeholder="example@upi">
+
+            </div>
+
+            <!-- Card -->
+
+            <div id="card_field"
+                 style="display:none;">
+
+                <label class="mt-3">
+                    Card Number
+                </label>
+
+                <input type="text"
+                       name="card_number"
+                       class="form-control">
+
+                <label class="mt-3">
+                    CVV
+                </label>
+
+                <input type="text"
+                       name="cvv"
+                       class="form-control">
+
+                <label class="mt-3">
+                    Expiry Date
+                </label>
+
+                <input type="month"
+                       name="expiry"
+                       class="form-control">
+
+            </div>
+
+            <!-- Net Banking -->
+
+            <div id="bank_field"
+                 style="display:none;">
+
+                <label class="mt-3">
+                    Select Bank
+                </label>
+
+                <select name="bank"
+                        class="form-control">
+
+                    <option>SBI</option>
+                    <option>Federal Bank</option>
+                    <option>Canara Bank</option>
+                    <option>HDFC</option>
+
+                </select>
+
+            </div>
+
+            <div class="text-center mt-4">
+
+                <button type="submit"
+                        class="btn btn-success px-4">
+
+                    Pay Now
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function showFields(){
+
+    var method =
+    document.getElementById(
+        "payment_method"
+    ).value;
+
+    document.getElementById(
+        "upi_field"
+    ).style.display = "none";
+
+    document.getElementById(
+        "card_field"
+    ).style.display = "none";
+
+    document.getElementById(
+        "bank_field"
+    ).style.display = "none";
+
+    if(method == "UPI"){
+
+        document.getElementById(
+            "upi_field"
+        ).style.display = "block";
+    }
+
+    else if(method == "Card"){
+
+        document.getElementById(
+            "card_field"
+        ).style.display = "block";
+    }
+
+    else if(method == "Net Banking"){
+
+        document.getElementById(
+            "bank_field"
+        ).style.display = "block";
+    }
+}
+
+</script>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "#"
+</script>
+{% endif %}
+
+
+{% endblock %}

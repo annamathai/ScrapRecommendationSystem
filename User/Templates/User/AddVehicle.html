@@ -418,7 +418,7 @@
                                 </td>
 
                                 <td>
-
+                                    {% if i.vehicle_status == 0 %}
                                     <a href="{% url 'User:delav' i.id %}" class="btn btn-danger btn-sm mb-1">
 
                                         <i class="fa fa-trash">Delete</i>
@@ -433,7 +433,15 @@
 
                                         <i class="fa fa-building">ViewScrapcenter</i>
                                     </a>
+                                    <a href="{% url 'User:Sold' i.id %}" class="btn btn-danger btn-sm">
 
+                                        Sold
+                                    </a>
+                                    {% else %}
+                                    <span class="badge rounded-pill bg-danger px-3 py-2">
+                                        Sold Out
+                                    </span>
+                                    {% endif %}
                                 </td>
 
                             </tr>

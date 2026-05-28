@@ -32,6 +32,6 @@ urlpatterns = [
      path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
      path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
      path('clearchat/',views.clearchat,name="clearchat"),
-
+     path('Sold/<int:id>', views.Sold, name="Sold"),
 ]
 
