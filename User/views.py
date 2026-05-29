@@ -233,7 +233,7 @@ def Gallery(request,vid):
     if 'uid' not in request.session:
         return redirect('Guest:Login')
     vehicleid=tbl_addvehicle.objects.get(id=vid)
-    galdata=tbl_gallery.objects.all()
+    galdata=tbl_gallery.objects.filter(vehicle=vehicleid)
     if request.method=="POST":
         image=request.FILES.get("txt_image")
         tbl_gallery.objects.create(

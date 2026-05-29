@@ -37,7 +37,7 @@
                                     <option value="">-- Select Category --</option>
 
                                     {% for i in categories %}
-                                    <option value="{{i.id}}" {% if editdata.category.id==i.id %}selected{% endif %}>
+                                    <option value="{{i.id}}" {% if editdata.category.id == i.id %}selected{% endif %}>
                                         {{i.category_name}}
                                     </option>
                                     {% endfor %}

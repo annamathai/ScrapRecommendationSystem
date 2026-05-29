@@ -1,4 +1,4 @@
-{% extends 'User/Header.html' %}
+{% extends 'Scrapcenter/Header.html' %}
 
 {% block content %}
 
@@ -25,7 +25,7 @@
                 <select name="payment_method"
                         id="payment_method"
                         class="form-control"
-                        onchange="showFields()">
+                        onchange="showFields()" required>
 
                     <option value="">
                         --Select--
@@ -78,7 +78,7 @@
 
                 <input type="text"
                        name="card_number"
-                       class="form-control">
+                       class="form-control" >
 
                 <label class="mt-3">
                     CVV
@@ -94,7 +94,7 @@
 
                 <input type="month"
                        name="expiry"
-                       class="form-control">
+                       class="form-control" >
 
             </div>
 
@@ -108,7 +108,7 @@
                 </label>
 
                 <select name="bank"
-                        class="form-control">
+                        class="form-control" required>
 
                     <option>SBI</option>
                     <option>Federal Bank</option>

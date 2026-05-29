@@ -188,7 +188,27 @@ def Payment(request,id):
         cvv = request.POST.get("cvv")
         expiry = request.POST.get("expiry")
         bank = request.POST.get("bank")
-        vehicle.vehicle_status = 2
+        vehicle.vehicle_status = 1
+        requestdata.request_status=4
+        vehicle.save()
+        requestdata.save()
+        return render(request,"Scrapcenter/Payment.html",{"msg":"Payment Successful"})
+    else:
+        return render(request,"Scrapcenter/Payment.html")
+
+def SendPayment(request,id):
+    requestdata = tbl_sendrequest.objects.get(id=id)
+    vehicle = requestdata.vehicle
+    if request.method == "POST":
+        method = request.POST.get("payment_method")
+        upi = request.POST.get("upi")
+        card = request.POST.get("card_number")
+        cvv = request.POST.get("cvv")
+        expiry = request.POST.get("expiry")
+        bank = request.POST.get("bank")
+        vehicle.vehicle_status = 1
+        requestdata.request_status=4
+        requestdata.save()
         vehicle.save()
         return render(request,"Scrapcenter/Payment.html",{"msg":"Payment Successful"})
     else:

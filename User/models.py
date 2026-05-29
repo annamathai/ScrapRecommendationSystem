@@ -23,7 +23,7 @@ class tbl_addvehicle(models.Model):
     is_rc_available=models.BooleanField()
     insurance_status=models.BooleanField()
     vehicle_description=models.TextField(max_length=50)
-    vehicle_status=models.IntegerField(null=True)
+    vehicle_status=models.IntegerField(default=0)
     created_date=models.DateField(auto_now_add=True)
 class tbl_gallery(models.Model):
     gallery_file=models.FileField(upload_to='Assets/UserDocs/')

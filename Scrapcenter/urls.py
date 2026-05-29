@@ -19,5 +19,6 @@ urlpatterns = [
     path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
     path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
     path('clearchat/',views.clearchat,name="clearchat"),
-    path('Payment/<int:id>',views.Payment,name="Payment")
+    path('Payment/<int:id>',views.Payment,name="Payment"),
+    path('SendPayment/<int:id>',views.SendPayment,name="SendPayment")
 ]

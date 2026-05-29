@@ -138,17 +138,18 @@
                                     {% elif i.request_status == 1 %}
                                     <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                                     <span class="badge badge-success px-3 py-2">
-                                        Accepted
+                                    Accepted
                                     </span>
-                                    {% if i.vehicle.vehicle_status == 0 %}
                                     <a href="{% url 'Scrapcenter:Payment' i.id %}">Click to pay</a>
-                                    {% else %}
+
+                                    {% elif i.request_status == 4 %}
                                     Paid
-                                    {% endif %}
+                                    <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
+
                                     {% else %}
                                     <a href="{% url 'Scrapcenter:chatpage' i.vehicle.user.id %}">Click to Chat</a>
                                     <span class="badge badge-danger px-3 py-2">
-                                        Rejected
+                                    Rejected
                                     </span>
                                     {% endif %}
 

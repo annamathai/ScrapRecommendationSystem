@@ -419,10 +419,7 @@
 
                                 <td>
                                     {% if i.vehicle_status == 0 %}
-                                    <a href="{% url 'User:delav' i.id %}" class="btn btn-danger btn-sm mb-1">
-
-                                        <i class="fa fa-trash">Delete</i>
-                                    </a>
+                                       
 
                                     <a href="{% url 'User:Gallery' i.id %}" class="btn btn-primary btn-sm mb-1">
 
@@ -437,11 +434,19 @@
 
                                         Sold
                                     </a>
+                                    {% elif i.vehicle_status == 1 %}
+                                    <span class="badge rounded-pill bg-danger px-3 py-2">
+                                        Sold out
+                                    </span>
                                     {% else %}
                                     <span class="badge rounded-pill bg-danger px-3 py-2">
-                                        Sold Out
+                                        Paid
                                     </span>
                                     {% endif %}
+                                    <a href="{% url 'User:delav' i.id %}" class="btn btn-danger btn-sm mb-1">
+
+                                        <i class="fa fa-trash">Delete</i>
+                                    </a>
                                 </td>
 
                             </tr>

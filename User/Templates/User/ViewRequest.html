@@ -144,9 +144,11 @@
                                     <span class="badge badge-success px-3 py-2">
                                         Accepted
                                     </span>
-                                    {% if i.vehicle.vehicle_status == 2 %}
+
+                                    {% elif i.request_status == 4 %}
                                     Paid
-                                    {% endif %}
+                                    <a href="{% url 'User:chatpage' i.scrapcenter.id %}">Click to Chat</a>
+
                                     {% else %}
                                     <a href="{% url 'User:chatpage' i.scrapcenter.id %}">Click to Chat</a>
                                     <span class="badge badge-danger px-3 py-2">
